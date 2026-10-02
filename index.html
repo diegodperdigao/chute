@@ -70,8 +70,11 @@
 
     <div class="hero__form" id="inscricao">
       <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600" aria-hidden="true">
-      <span class="sticker sticker--mais" aria-hidden="true">Mais ↑</span>
-      <span class="sticker sticker--menos" aria-hidden="true">Menos ↓</span>
+      <div class="choice" aria-hidden="true">
+        <span class="choice__thumb"></span>
+        <span class="choice__opt choice__opt--menos"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>Menos</span>
+        <span class="choice__opt choice__opt--mais"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Mais</span>
+      </div>
 
       <div class="card load" style="--d:.2s">
         <form class="form" id="lead-form" novalidate>
