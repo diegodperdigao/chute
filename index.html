@@ -20,49 +20,65 @@
 
 <canvas class="confetti" aria-hidden="true"></canvas>
 
-<header class="nav">
-  <div class="wrap nav__inner">
-    <a class="nav__logo" href="#topo" aria-label="Chute, voltar ao topo"><img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348"></a>
-    <span class="nav__tag">Afiliados</span>
-  </div>
-</header>
+<main class="stage" id="topo">
 
-<main id="topo">
-
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__rays" aria-hidden="true"></div>
-    <div class="wrap hero__grid">
-      <div class="hero__copy">
-        <p class="pill load" style="--d:.05s">Programa de afiliados</p>
-        <h1 id="hero-title" class="hero__title load" style="--d:.15s">Sua audiência joga.<br><span>Você ganha junto.</span></h1>
-        <p class="hero__lead load" style="--d:.3s">O Chute é o novo fantasy de futebol e basquete. Indique para os seus seguidores e receba comissão via <b>revenue share</b>.</p>
-        <div class="load" style="--d:.42s">
-          <a class="btn btn--volt magnetic" href="#inscricao">Quero ser afiliado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
-        </div>
-      </div>
-      <div class="hero__art" aria-hidden="true">
-        <div class="hero__glow"></div>
-        <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600">
-        <span class="sticker sticker--mais">Mais ↑</span>
-        <span class="sticker sticker--menos">Menos ↓</span>
-      </div>
+  <!-- background layers -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg__rays"></div>
+    <div class="bg__spot"></div>
+    <div class="bg__words">
+      <div class="bg__track" data-words="Mais ou Menos?|Seu chute"></div>
+      <div class="bg__track bg__track--rev" data-words="Futebol|Basquete"></div>
     </div>
-  </section>
+    <svg class="bg__pitch" viewBox="0 0 1050 680" preserveAspectRatio="xMidYMid meet">
+      <rect x="10" y="10" width="1030" height="660" rx="6"/>
+      <line x1="525" y1="10" x2="525" y2="670"/>
+      <circle cx="525" cy="340" r="92"/>
+      <circle cx="525" cy="340" r="5" class="fill"/>
+      <rect x="10" y="138" width="165" height="404"/>
+      <rect x="10" y="248" width="55" height="184"/>
+      <rect x="875" y="138" width="165" height="404"/>
+      <rect x="985" y="248" width="55" height="184"/>
+      <path d="M175 270a92 92 0 0 1 0 140M875 270a92 92 0 0 0 0 140"/>
+    </svg>
+    <div class="bg__fade"></div>
+  </div>
 
-  <section class="signup" id="inscricao" aria-labelledby="signup-title">
-    <div class="wrap signup__grid">
-      <div class="signup__copy">
-        <h2 id="signup-title" class="h2">Faça sua inscrição</h2>
-        <p class="signup__lead">Deixe seus dados. Nosso time entra em contato para apresentar o programa.</p>
-        <ol class="steps">
-          <li><span>1</span>Você se inscreve</li>
-          <li><span>2</span>A gente te chama no WhatsApp</li>
-          <li><span>3</span>Você divulga e recebe via revenue share</li>
-        </ol>
-      </div>
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="nav__logo" href="#topo" aria-label="Chute"><img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348"></a>
+      <span class="nav__tag">Afiliados</span>
+      <span class="nav__by">por <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></span>
+    </div>
+  </header>
 
-      <div class="card">
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div class="hero__head">
+      <p class="pill load" style="--d:.05s">Programa de afiliados</p>
+      <h1 id="hero-title" class="hero__title">
+        <span class="line load" style="--d:.12s">Sua audiência joga.</span>
+        <span class="line line--volt load" style="--d:.24s">Você ganha junto.</span>
+      </h1>
+      <p class="hero__lead load" style="--d:.36s">O Chute é o novo fantasy de futebol e basquete. Indique para os seus seguidores e receba comissão via <b>revenue share</b>.</p>
+    </div>
+
+    <ol class="steps load" style="--d:.48s" aria-label="Como funciona">
+      <li><span>1</span>Você se inscreve</li>
+      <li><span>2</span>A gente te chama no WhatsApp</li>
+      <li><span>3</span>Você divulga e recebe via revenue share</li>
+    </ol>
+
+    <div class="hero__form" id="inscricao">
+      <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600" aria-hidden="true">
+      <span class="sticker sticker--mais" aria-hidden="true">Mais ↑</span>
+      <span class="sticker sticker--menos" aria-hidden="true">Menos ↓</span>
+
+      <div class="card load" style="--d:.2s">
         <form class="form" id="lead-form" novalidate>
+          <div class="form__head">
+            <h2 class="form__title">Quero ser afiliado</h2>
+            <p class="form__sub">Leva menos de um minuto.</p>
+          </div>
           <div class="field">
             <label for="f-nome">Nome</label>
             <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required>
@@ -90,7 +106,7 @@
             </label>
             <p class="field__err" id="e-aceite"></p>
           </div>
-          <button class="btn btn--ink btn--block" type="submit" id="f-submit">
+          <button class="btn btn--block magnetic" type="submit" id="f-submit">
             <span class="btn__label">Enviar inscrição</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
@@ -99,12 +115,16 @@
 
         <div class="done" id="lead-done" hidden tabindex="-1">
           <span class="done__badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
-          <h2 class="done__title">Inscrição recebida!</h2>
+          <h2 class="form__title">Inscrição recebida!</h2>
           <p>Valeu, <b id="done-name">craque</b>. Nosso time vai te chamar no WhatsApp em breve.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track" data-ticker="Mais ↑|Menos ↓|Futebol|Basquete|Comissão via revenue share|Seu chute"></div>
+  </div>
 </main>
 
 <footer class="footer">

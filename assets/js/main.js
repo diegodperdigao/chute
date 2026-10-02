@@ -9,6 +9,26 @@
   const $ = s => document.querySelector(s);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- marquees ---------- */
+  const fill = (track, list, min) => {
+    let set = [];
+    while (set.length < min) set = set.concat(list.split('|'));
+    const html = set.map(t => `<span>${t}</span>`).join('');
+    track.innerHTML = html + html; // duplicated half makes the -50% loop seamless
+  };
+  document.querySelectorAll('[data-words]').forEach(t => fill(t, t.dataset.words, 6));
+  document.querySelectorAll('[data-ticker]').forEach(t => fill(t, t.dataset.ticker, 14));
+
+  /* ---------- cursor spotlight ---------- */
+  const bg = $('.bg');
+  if (matchMedia('(pointer: fine)').matches && !reduced) {
+    $('.stage').addEventListener('pointermove', e => {
+      const r = bg.getBoundingClientRect();
+      bg.style.setProperty('--sx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      bg.style.setProperty('--sy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    });
+  }
+
   /* ---------- magnetic button ---------- */
   if (matchMedia('(pointer: fine)').matches && !reduced) {
     document.querySelectorAll('.magnetic').forEach(btn => {
@@ -146,6 +166,7 @@
       form.hidden = true;
       done.hidden = false;
       done.focus({ preventScroll: true });
+      $('.hero__form').classList.add('is-done');
       const r = done.getBoundingClientRect();
       burst(r.left + 60, r.top + 40);
     } catch (err) {
