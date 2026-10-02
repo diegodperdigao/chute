@@ -76,9 +76,9 @@ body::after {
     var(--ink);
 }
 .bg__rays {
-  position: absolute; left: 58%; top: 40%; width: 2000px; height: 2000px; translate: -50% -50%;
-  background: repeating-conic-gradient(from 0deg, rgba(247, 246, 242, .075) 0deg 5deg, transparent 5deg 15deg);
-  -webkit-mask: radial-gradient(circle, #000 0%, transparent 50%); mask: radial-gradient(circle, #000 0%, transparent 50%);
+  position: absolute; left: 74%; top: 42%; width: 1900px; height: 1900px; translate: -50% -50%;
+  background: repeating-conic-gradient(from 0deg, rgba(247, 246, 242, .05) 0deg 5deg, transparent 5deg 15deg);
+  -webkit-mask: radial-gradient(circle, #000 0%, transparent 46%); mask: radial-gradient(circle, #000 0%, transparent 46%);
   animation: spin 90s linear infinite;
 }
 /* background motion: data-motion="rays" or "words" keeps only that layer; remove the attribute to show both */
