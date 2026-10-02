@@ -95,6 +95,7 @@
     { name: 'nome', err: 'e-nome', check: f => f.nome.value.trim().length >= 2 || 'Conta pra gente seu nome.' },
     { name: 'email', err: 'e-email', check: f => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()) || 'Confira o e-mail.' },
     { name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
+    { name: 'tipo', err: 'e-tipo', check: f => !!f.tipo.value || 'Escolha o que melhor descreve você.' },
     { name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
     { name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais e aceita os termos.' },
   ];
@@ -108,8 +109,10 @@
       const errEl = document.getElementById(r.err);
       errEl.textContent = ok ? '' : res;
       errEl.closest('.field').classList.toggle('has-error', !ok);
-      form.elements[r.name].setAttribute('aria-invalid', String(!ok));
-      if (!ok && !firstBad) firstBad = form.elements[r.name];
+      const el = form.elements[r.name];
+      const target = el instanceof RadioNodeList ? el[0] : el; // radio groups: flag/focus the first option
+      target.setAttribute('aria-invalid', String(!ok));
+      if (!ok && !firstBad) firstBad = target;
     }
     return firstBad;
   }
@@ -158,6 +161,7 @@
       nome: f.nome.value.trim(),
       email: f.email.value.trim(),
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
+      tipo: f.tipo.value,
       perfil: f.perfil.value.trim(),
       aceite_termos: true,
       empresa: f.empresa.value, // honeypot: real people leave it empty

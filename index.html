@@ -81,6 +81,16 @@
             <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" enterkeyhint="next" placeholder="(11) 91234-5678" required>
             <p class="field__err" id="e-whats"></p>
           </div>
+          <fieldset class="field">
+            <legend>Você é</legend>
+            <div class="tipos">
+              <label><input type="radio" name="tipo" value="influencer" id="t-influencer"><span>Influencer</span></label>
+              <label><input type="radio" name="tipo" value="tipster" id="t-tipster"><span>Tipster</span></label>
+              <label><input type="radio" name="tipo" value="streamer" id="t-streamer"><span>Streamer</span></label>
+              <label><input type="radio" name="tipo" value="agencia" id="t-agencia"><span>Agência</span></label>
+            </div>
+            <p class="field__err" id="e-tipo"></p>
+          </fieldset>
           <div class="field">
             <label for="f-perfil">Seu perfil principal</label>
             <input id="f-perfil" name="perfil" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="@seuperfil ou link" required>
