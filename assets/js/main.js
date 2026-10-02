@@ -16,7 +16,6 @@
     const html = set.map(t => `<span>${t}</span>`).join('');
     track.innerHTML = html + html; // duplicated half makes the -50% loop seamless
   };
-  document.querySelectorAll('[data-words]').forEach(t => fill(t, t.dataset.words, 6));
   document.querySelectorAll('[data-ticker]').forEach(t => fill(t, t.dataset.ticker, 14));
 
   /* ---------- cursor spotlight ---------- */
