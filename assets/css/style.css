@@ -60,14 +60,12 @@ body::after {
 .load { animation: up .9s var(--ease) both; animation-delay: var(--d, 0s); }
 
 .pill {
-  display: inline-block; padding: 6px 16px;
-  background: var(--lilac); transform: skewX(-14deg);
-  box-shadow: 4px 4px 0 var(--volt);
-}
-.pill > span {
-  display: inline-block; transform: skewX(14deg);
-  font-family: var(--display); font-style: italic; font-weight: 900; font-size: 17px; line-height: 1;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--ink);
+  align-self: flex-start;
+  font-family: var(--display); font-style: italic; font-weight: 800;
+  font-size: 15px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 16px; border-radius: 999px;
+  background: var(--lilac); color: var(--ink);
+  box-shadow: 3px 3px 0 var(--volt);
 }
 
 /* ---------- stage + background ---------- */
