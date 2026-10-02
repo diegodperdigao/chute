@@ -6,29 +6,12 @@
   // o formulário só simula o envio e as inscrições NÃO são salvas.
   const FORM_ENDPOINT = '';
 
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const $ = s => document.querySelector(s);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(pointer: fine)').matches;
 
-  /* ---------- ticker ---------- */
-  $$('[data-ticker]').forEach(track => {
-    const items = track.dataset.ticker.split('|');
-    let set = [];
-    while (set.length < 16) set = set.concat(items);
-    const html = set.map(t => `<span>${t}</span>`).join('');
-    track.innerHTML = html + html; // duplicated half makes the -50% loop seamless
-  });
-
-  /* ---------- hero spotlight + magnetic buttons ---------- */
-  if (finePointer && !reduced) {
-    const hero = $('.hero');
-    hero.addEventListener('pointermove', e => {
-      const r = hero.getBoundingClientRect();
-      hero.style.setProperty('--sx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-      hero.style.setProperty('--sy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
-    });
-    $$('.magnetic').forEach(btn => {
+  /* ---------- magnetic button ---------- */
+  if (matchMedia('(pointer: fine)').matches && !reduced) {
+    document.querySelectorAll('.magnetic').forEach(btn => {
       btn.addEventListener('pointermove', e => {
         const r = btn.getBoundingClientRect();
         btn.style.translate = `${(e.clientX - r.left - r.width / 2) * .18}px ${(e.clientY - r.top - r.height / 2) * .28}px`;
@@ -51,8 +34,8 @@
   addEventListener('resize', sizeCanvas);
   function burst(x, y) {
     if (reduced) return;
-    const colors = ['#F2FD41', '#C996F9', '#F7F6F2'];
-    for (let i = 0; i < 140; i++) {
+    const colors = ['#F2FD41', '#C996F9', '#0E0E0D'];
+    for (let i = 0; i < 130; i++) {
       const a = Math.random() * Math.PI * 2, v = 4 + Math.random() * 10;
       parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 7, w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
         r: Math.random() * Math.PI, vr: (Math.random() - .5) * .4, c: colors[i % 3], life: 1 });
@@ -94,8 +77,6 @@
     { name: 'email', err: 'e-email', check: f => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()) || 'Confira o e-mail.' },
     { name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
     { name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
-    { name: 'canal', err: 'e-canal', check: f => !!f.canal.value || 'Escolha o canal principal.' },
-    { name: 'audiencia', err: 'e-audiencia', check: f => !!f.audiencia.value || 'Escolha o tamanho da audiência.' },
     { name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais.' },
   ];
 
@@ -104,12 +85,11 @@
     for (const r of RULES) {
       if (only && only !== r.name) continue;
       const res = r.check(form.elements);
-      const errEl = document.getElementById(r.err);
-      const field = errEl.closest('.field');
       const ok = res === true;
+      const errEl = document.getElementById(r.err);
       errEl.textContent = ok ? '' : res;
-      field.classList.toggle('has-error', !ok);
-      $$('input', field).forEach(i => i.setAttribute('aria-invalid', String(!ok)));
+      errEl.closest('.field').classList.toggle('has-error', !ok);
+      form.elements[r.name].setAttribute('aria-invalid', String(!ok));
       if (!ok && !firstBad) firstBad = form.elements[r.name];
     }
     return firstBad;
@@ -117,11 +97,7 @@
 
   // re-validate a field as soon as it is fixed
   form.addEventListener('input', e => {
-    const name = e.target.name;
-    if (e.target.closest('.field')?.classList.contains('has-error')) validate(name);
-  });
-  form.addEventListener('change', e => {
-    if (e.target.type === 'radio' || e.target.type === 'checkbox') validate(e.target.name);
+    if (e.target.closest('.field')?.classList.contains('has-error')) validate(e.target.name);
   });
 
   function utm() {
@@ -137,10 +113,7 @@
     e.preventDefault();
     status.textContent = '';
     const bad = validate();
-    if (bad) {
-      (bad.length ? bad[0] : bad).focus();
-      return;
-    }
+    if (bad) { bad.focus(); return; }
 
     const f = form.elements;
     const payload = {
@@ -148,16 +121,15 @@
       email: f.email.value.trim(),
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
       perfil: f.perfil.value.trim(),
-      canal: f.canal.value,
-      audiencia: f.audiencia.value,
       aceite: true,
       origem: location.href.split('#')[0],
       enviado_em: new Date().toISOString(),
       ...utm(),
     };
 
+    const label = submit.querySelector('.btn__label');
     submit.setAttribute('aria-busy', 'true');
-    submit.querySelector('.btn__label').textContent = 'Enviando…';
+    label.textContent = 'Enviando…';
     try {
       if (FORM_ENDPOINT) {
         const res = await fetch(FORM_ENDPOINT, {
@@ -168,25 +140,19 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
       } else {
         console.warn('[Chute] FORM_ENDPOINT vazio: inscrição não foi salva.', payload);
-        await new Promise(r => setTimeout(r, 700));
+        await new Promise(r => setTimeout(r, 600));
       }
-      showDone(payload.nome);
+      $('#done-name').textContent = payload.nome.split(' ')[0];
+      form.hidden = true;
+      done.hidden = false;
+      done.focus({ preventScroll: true });
+      const r = done.getBoundingClientRect();
+      burst(r.left + 60, r.top + 40);
     } catch (err) {
       status.textContent = 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.';
     } finally {
       submit.removeAttribute('aria-busy');
-      submit.querySelector('.btn__label').textContent = 'Quero ser afiliado';
+      label.textContent = 'Enviar inscrição';
     }
   });
-
-  function showDone(nome) {
-    $('#done-name').textContent = nome.split(' ')[0];
-    form.hidden = true;
-    done.hidden = false;
-    done.focus({ preventScroll: true });
-    const col = $('.hero__form-col');
-    col.classList.add('is-done');
-    const r = done.getBoundingClientRect();
-    burst(r.left + 60, r.top + 40);
-  }
 })();

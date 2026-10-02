@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Chute Afiliados</title>
-<meta name="description" content="Programa de afiliados do Chute, o fantasy pick'em de futebol e basquete da 3C Picks. Inscreva-se e fale com o nosso time.">
+<meta name="description" content="Programa de afiliados do Chute, o fantasy pick'em de futebol e basquete da 3C Picks. Comissão via revenue share.">
 <meta name="theme-color" content="#0E0E0D">
 <meta property="og:title" content="Chute Afiliados · Sua audiência joga. Você ganha junto.">
-<meta property="og:description" content="30% de revenue share no novo fantasy pick'em de futebol e basquete. Inscreva-se e fale com o nosso time.">
+<meta property="og:description" content="Indique o Chute para a sua audiência e receba comissão via revenue share.">
 <meta property="og:image" content="assets/img/app-icon.webp">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800;1,900&family=DM+Sans:opsz,wght@9..40,400..700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -21,10 +21,9 @@
 <canvas class="confetti" aria-hidden="true"></canvas>
 
 <header class="nav">
-  <div class="nav__inner">
+  <div class="wrap nav__inner">
     <a class="nav__logo" href="#topo" aria-label="Chute, voltar ao topo"><img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348"></a>
     <span class="nav__tag">Afiliados</span>
-    <a class="btn btn--volt btn--sm magnetic" href="#inscricao">Quero ser afiliado</a>
   </div>
 </header>
 
@@ -32,150 +31,77 @@
 
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__rays" aria-hidden="true"></div>
-    <div class="hero__spot" aria-hidden="true"></div>
-
     <div class="wrap hero__grid">
       <div class="hero__copy">
-        <p class="hero__tag load" style="--d:.05s">
-          <span class="pill">Programa de afiliados</span>
-          <span class="hero__by">por <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></span>
-        </p>
-        <h1 id="hero-title" class="hero__title">
-          <span class="line load" style="--d:.15s">Sua audiência joga.</span>
-          <span class="line load hl" style="--d:.28s">Você ganha junto.</span>
-        </h1>
-        <p class="hero__lead load" style="--d:.4s">O <b>Chute</b> é o novo fantasy pick'em de futebol e basquete. Seus seguidores montam a escalação e escolhem <b>Mais</b> ou <b>Menos</b>. Deixe seu contato e o nosso time apresenta o programa para você.</p>
-
-        <ul class="perks load" style="--d:.52s">
-          <li class="perk perk--volt">
-            <span class="perk__big">30%</span>
-            <span class="perk__txt">de revenue share sobre a receita dos jogadores que você trouxer</span>
-          </li>
-          <li class="perk">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-            <span class="perk__txt">Chutaço exclusivo para converter quem nunca jogou</span>
-          </li>
-          <li class="perk">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h10v10H9zM5 15V5h10"/></svg>
-            <span class="perk__txt">Sua escalação vira conteúdo: a audiência copia com um clique</span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="hero__form-col load" style="--d:.3s" id="inscricao">
-        <img class="deco deco--yuri" src="assets/img/card-yuri.webp" alt="" width="600" height="512" aria-hidden="true">
-        <img class="deco deco--pedro" src="assets/img/card-pedro.webp" alt="" width="600" height="512" aria-hidden="true">
-        <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600" aria-hidden="true">
-
-        <div class="card">
-          <form class="form" id="lead-form" novalidate>
-            <div class="form__head">
-              <h2 class="form__title">Quero ser afiliado</h2>
-              <p class="form__sub">Leva menos de um minuto.</p>
-            </div>
-
-            <div class="field">
-              <label for="f-nome">Nome</label>
-              <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required>
-              <p class="field__err" id="e-nome"></p>
-            </div>
-
-            <div class="row">
-              <div class="field">
-                <label for="f-email">E-mail</label>
-                <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required>
-                <p class="field__err" id="e-email"></p>
-              </div>
-              <div class="field">
-                <label for="f-whats">WhatsApp</label>
-                <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" placeholder="(11) 91234-5678" required>
-                <p class="field__err" id="e-whats"></p>
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="f-perfil">Perfil ou canal principal</label>
-              <input id="f-perfil" name="perfil" type="text" autocomplete="off" placeholder="@seuperfil ou link" required>
-              <p class="field__err" id="e-perfil"></p>
-            </div>
-
-            <fieldset class="field">
-              <legend>Onde está sua audiência?</legend>
-              <div class="chips">
-                <label><input type="radio" name="canal" value="Instagram" id="c-ig"><span>Instagram</span></label>
-                <label><input type="radio" name="canal" value="TikTok" id="c-tt"><span>TikTok</span></label>
-                <label><input type="radio" name="canal" value="YouTube" id="c-yt"><span>YouTube</span></label>
-                <label><input type="radio" name="canal" value="Twitch/Kick" id="c-tw"><span>Twitch/Kick</span></label>
-                <label><input type="radio" name="canal" value="Telegram/WhatsApp" id="c-tg"><span>Telegram/WhatsApp</span></label>
-                <label><input type="radio" name="canal" value="Outro" id="c-ou"><span>Outro</span></label>
-              </div>
-              <p class="field__err" id="e-canal"></p>
-            </fieldset>
-
-            <fieldset class="field">
-              <legend>Tamanho da audiência</legend>
-              <div class="chips">
-                <label><input type="radio" name="audiencia" value="Até 10 mil" id="a-1"><span>Até 10 mil</span></label>
-                <label><input type="radio" name="audiencia" value="10 a 50 mil" id="a-2"><span>10 a 50 mil</span></label>
-                <label><input type="radio" name="audiencia" value="50 a 200 mil" id="a-3"><span>50 a 200 mil</span></label>
-                <label><input type="radio" name="audiencia" value="200 mil a 1 mi" id="a-4"><span>200 mil a 1 mi</span></label>
-                <label><input type="radio" name="audiencia" value="Mais de 1 mi" id="a-5"><span>+1 mi</span></label>
-              </div>
-              <p class="field__err" id="e-audiencia"></p>
-            </fieldset>
-
-            <div class="field">
-              <label class="check" for="f-aceite">
-                <input id="f-aceite" name="aceite" type="checkbox" required>
-                <span>Tenho 18 anos ou mais e aceito ser contatado pelo time do Chute.</span>
-              </label>
-              <p class="field__err" id="e-aceite"></p>
-            </div>
-
-            <button class="btn btn--volt btn--block" type="submit" id="f-submit">
-              <span class="btn__label">Quero ser afiliado</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-            <p class="form__status" id="f-status" role="status" aria-live="polite"></p>
-          </form>
-
-          <div class="done" id="lead-done" hidden tabindex="-1">
-            <span class="done__badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
-            <h2 class="form__title">Inscrição recebida!</h2>
-            <p>Valeu, <b id="done-name">craque</b>. Nosso time vai te chamar no WhatsApp para apresentar o programa de afiliados do Chute.</p>
-          </div>
+        <p class="pill load" style="--d:.05s">Programa de afiliados</p>
+        <h1 id="hero-title" class="hero__title load" style="--d:.15s">Sua audiência joga.<br><span>Você ganha junto.</span></h1>
+        <p class="hero__lead load" style="--d:.3s">O Chute é o novo fantasy de futebol e basquete. Indique para os seus seguidores e receba comissão via <b>revenue share</b>.</p>
+        <div class="load" style="--d:.42s">
+          <a class="btn btn--volt magnetic" href="#inscricao">Quero ser afiliado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
         </div>
+      </div>
+      <div class="hero__art" aria-hidden="true">
+        <div class="hero__glow"></div>
+        <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600">
+        <span class="sticker sticker--mais">Mais ↑</span>
+        <span class="sticker sticker--menos">Menos ↓</span>
       </div>
     </div>
   </section>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__band ticker__band--volt"><div class="ticker__track" data-ticker="Mais ↑|Menos ↓|Futebol|Basquete|Brasileirão|Champions League|Premier League|NBA"></div></div>
-    <div class="ticker__band ticker__band--lilac"><div class="ticker__track ticker__track--rev" data-ticker="30% de revenue share|Chutaço exclusivo|Escalação copiável|Mais ou Menos?"></div></div>
-  </div>
+  <section class="signup" id="inscricao" aria-labelledby="signup-title">
+    <div class="wrap signup__grid">
+      <div class="signup__copy">
+        <h2 id="signup-title" class="h2">Faça sua inscrição</h2>
+        <p class="signup__lead">Deixe seus dados. Nosso time entra em contato para apresentar o programa.</p>
+        <ol class="steps">
+          <li><span>1</span>Você se inscreve</li>
+          <li><span>2</span>A gente te chama no WhatsApp</li>
+          <li><span>3</span>Você divulga e recebe via revenue share</li>
+        </ol>
+      </div>
 
-  <section class="sec" aria-labelledby="passos-title">
-    <div class="wrap">
-      <h2 id="passos-title" class="h2">Como funciona a parceria</h2>
-      <ol class="steps">
-        <li class="step">
-          <span class="step__n">1</span>
-          <h3>Inscreva-se</h3>
-          <p>Preencha o formulário com seu contato e seu canal principal.</p>
-        </li>
-        <li class="step">
-          <span class="step__n">2</span>
-          <h3>A gente te chama</h3>
-          <p>Nosso time apresenta o Chute, as condições e as ações para sua audiência.</p>
-        </li>
-        <li class="step step--volt">
-          <span class="step__n">3</span>
-          <h3>Divulgue e ganhe</h3>
-          <p>Sua audiência joga e você recebe sobre a receita que ela gera.</p>
-        </li>
-      </ol>
-      <div class="cta-row">
-        <a class="btn btn--lilac magnetic" href="#inscricao">Quero ser afiliado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="card">
+        <form class="form" id="lead-form" novalidate>
+          <div class="field">
+            <label for="f-nome">Nome</label>
+            <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required>
+            <p class="field__err" id="e-nome"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required>
+            <p class="field__err" id="e-email"></p>
+          </div>
+          <div class="field">
+            <label for="f-whats">WhatsApp</label>
+            <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" placeholder="(11) 91234-5678" required>
+            <p class="field__err" id="e-whats"></p>
+          </div>
+          <div class="field">
+            <label for="f-perfil">Seu perfil principal</label>
+            <input id="f-perfil" name="perfil" type="text" autocomplete="off" placeholder="@seuperfil ou link do canal" required>
+            <p class="field__err" id="e-perfil"></p>
+          </div>
+          <div class="field">
+            <label class="check" for="f-aceite">
+              <input id="f-aceite" name="aceite" type="checkbox" required>
+              <span>Tenho 18 anos ou mais e aceito ser contatado pelo time do Chute.</span>
+            </label>
+            <p class="field__err" id="e-aceite"></p>
+          </div>
+          <button class="btn btn--ink btn--block" type="submit" id="f-submit">
+            <span class="btn__label">Enviar inscrição</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="form__status" id="f-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="done" id="lead-done" hidden tabindex="-1">
+          <span class="done__badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          <h2 class="done__title">Inscrição recebida!</h2>
+          <p>Valeu, <b id="done-name">craque</b>. Nosso time vai te chamar no WhatsApp em breve.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -183,9 +109,8 @@
 
 <footer class="footer">
   <div class="wrap footer__inner">
-    <img class="footer__logo" src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348">
-    <p class="footer__by">Fantasy pick'em da <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></p>
-    <p class="footer__legal"><span class="age">18+</span> Proibido para menores de 18 anos · Jogo responsável · Fantasy sport previsto na Lei nº 14.790/2023</p>
+    <p class="footer__by">Chute é um produto <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></p>
+    <p class="footer__legal"><span class="age">18+</span> Proibido para menores de 18 anos · Jogo responsável</p>
   </div>
 </footer>
 
