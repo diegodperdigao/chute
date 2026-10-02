@@ -1,15 +1,27 @@
-# Chute · Landing page
+# Chute Afiliados
 
-Landing page estática do Chute, o fantasy pick'em da 3C Picks. HTML, CSS e JS puros, sem build.
+Landing page de captação de afiliados do Chute, o fantasy pick'em da 3C Picks.
+HTML, CSS e JS puros, sem build.
 
 ```
 index.html            página
 assets/css/style.css  estilos e animações
-assets/js/main.js     interações (demo Mais ou Menos, passos, formatos, mercados, confete)
-assets/img/           logo, mascote e telas do app (webp)
+assets/js/main.js     formulário (validação, máscara de WhatsApp, envio) e animações
+assets/img/           logo, mascote e cards do app (webp)
 ```
 
 Para ver localmente: `python3 -m http.server` na raiz e abrir http://localhost:8000.
 
-Links de destino dos botões ficam no topo de `assets/js/main.js` (`LINKS`).
-O link de contato para parceiros ainda é provisório.
+## Formulário
+
+O envio é um `POST` com JSON para `FORM_ENDPOINT`, no topo de `assets/js/main.js`:
+
+```json
+{ "nome": "", "email": "", "whatsapp": "11912345678", "perfil": "@perfil",
+  "canal": "Instagram", "audiencia": "10 a 50 mil", "aceite": true,
+  "origem": "https://...", "enviado_em": "2026-10-02T19:00:00.000Z",
+  "utm_source": "...", "utm_campaign": "..." }
+```
+
+UTMs (`utm_*`) e `ref` da URL entram automaticamente. **Enquanto `FORM_ENDPOINT` estiver vazio,
+o formulário apenas simula o envio e nada é salvo.**

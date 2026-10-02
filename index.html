@@ -3,352 +3,180 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Chute</title>
-<meta name="description" content="Chute é o fantasy pick'em de futebol e basquete: monte sua escalação com atletas reais e diga se cada um faz Mais ou Menos que o chute.">
+<title>Chute Afiliados</title>
+<meta name="description" content="Programa de afiliados do Chute, o fantasy pick'em de futebol e basquete da 3C Picks. Inscreva-se e fale com o nosso time.">
 <meta name="theme-color" content="#0E0E0D">
-<meta property="og:title" content="Chute · Sua escalação. Seus jogadores. Seu chute.">
-<meta property="og:description" content="Monte sua escalação com atletas reais e escolha Mais ou Menos. Quem entende de futebol e basquete leva vantagem.">
+<meta property="og:title" content="Chute Afiliados · Sua audiência joga. Você ganha junto.">
+<meta property="og:description" content="30% de revenue share no novo fantasy pick'em de futebol e basquete. Inscreva-se e fale com o nosso time.">
 <meta property="og:image" content="assets/img/app-icon.webp">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<div class="progress" aria-hidden="true"><span></span></div>
 <canvas class="confetti" aria-hidden="true"></canvas>
 
 <header class="nav">
   <div class="nav__inner">
     <a class="nav__logo" href="#topo" aria-label="Chute, voltar ao topo"><img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348"></a>
-    <nav class="nav__links" aria-label="Seções">
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#chutaco">Chutaço</a>
-      <a href="#ligas">Ligas</a>
-      <a href="#resenha">Resenha</a>
-      <a href="#parceiros">Parceiros</a>
-    </nav>
-    <a class="btn btn--volt btn--sm magnetic" data-link="app" href="https://chute.com.br">Jogar agora</a>
+    <span class="nav__tag">Afiliados</span>
+    <a class="btn btn--volt btn--sm magnetic" href="#inscricao">Quero ser afiliado</a>
   </div>
 </header>
 
 <main id="topo">
 
-  <!-- HERO -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__rays" aria-hidden="true"></div>
     <div class="hero__spot" aria-hidden="true"></div>
+
     <div class="wrap hero__grid">
       <div class="hero__copy">
         <p class="hero__tag load" style="--d:.05s">
-          <span class="pill pill--volt">Fantasy pick'em</span>
+          <span class="pill">Programa de afiliados</span>
           <span class="hero__by">por <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></span>
         </p>
-        <div class="hero__logo load" style="--d:.15s">
-          <img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348">
-          <span class="hero__shine" aria-hidden="true"></span>
-        </div>
         <h1 id="hero-title" class="hero__title">
-          <span class="line load" style="--d:.35s">Sua escalação.</span>
-          <span class="line load" style="--d:.45s">Seus jogadores.</span>
-          <span class="line load hl" style="--d:.55s">Seu chute.</span>
+          <span class="line load" style="--d:.15s">Sua audiência joga.</span>
+          <span class="line load hl" style="--d:.28s">Você ganha junto.</span>
         </h1>
-        <p class="hero__lead load" style="--d:.7s">Monte uma escalação com atletas reais de futebol e basquete e diga se cada um vai fazer <b>Mais</b> ou <b>Menos</b> que o chute. Quem entende do jogo leva vantagem.</p>
-        <div class="hero__ctas load" style="--d:.8s">
-          <a class="btn btn--volt magnetic" data-link="app" href="https://chute.com.br">Fazer meu chute <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn--ghost" href="#demo">Testar o Mais ou Menos</a>
-        </div>
-        <p class="hero__legal load" style="--d:.9s"><span class="age">18+</span> Fantasy sport previsto na Lei nº 14.790/2023</p>
+        <p class="hero__lead load" style="--d:.4s">O <b>Chute</b> é o novo fantasy pick'em de futebol e basquete. Seus seguidores montam a escalação e escolhem <b>Mais</b> ou <b>Menos</b>. Deixe seu contato e o nosso time apresenta o programa para você.</p>
+
+        <ul class="perks load" style="--d:.52s">
+          <li class="perk perk--volt">
+            <span class="perk__big">30%</span>
+            <span class="perk__txt">de revenue share sobre a receita dos jogadores que você trouxer</span>
+          </li>
+          <li class="perk">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+            <span class="perk__txt">Chutaço exclusivo para converter quem nunca jogou</span>
+          </li>
+          <li class="perk">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h10v10H9zM5 15V5h10"/></svg>
+            <span class="perk__txt">Sua escalação vira conteúdo: a audiência copia com um clique</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="hero__stage" aria-hidden="true">
-        <div class="hero__glow"></div>
-        <div class="orbit"><span></span></div>
-        <img class="float-card fc--yuri  parallax" data-depth="18" src="assets/img/card-yuri.webp" alt="" width="600" height="512">
-        <img class="float-card fc--pedro parallax" data-depth="26" src="assets/img/card-pedro.webp" alt="" width="600" height="512">
-        <img class="float-card fc--chutaco parallax" data-depth="12" src="assets/img/card-chutaco.webp" alt="" width="566" height="545">
-        <img class="mascot parallax" data-depth="-14" src="assets/img/mascote.webp" alt="" width="600" height="600">
-        <span class="sticker sticker--mais parallax" data-depth="30">Mais <svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span>
-        <span class="sticker sticker--menos parallax" data-depth="22">Menos <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
+      <div class="hero__form-col load" style="--d:.3s" id="inscricao">
+        <img class="deco deco--yuri" src="assets/img/card-yuri.webp" alt="" width="600" height="512" aria-hidden="true">
+        <img class="deco deco--pedro" src="assets/img/card-pedro.webp" alt="" width="600" height="512" aria-hidden="true">
+        <img class="mascot" src="assets/img/mascote.webp" alt="" width="600" height="600" aria-hidden="true">
+
+        <div class="card">
+          <form class="form" id="lead-form" novalidate>
+            <div class="form__head">
+              <h2 class="form__title">Quero ser afiliado</h2>
+              <p class="form__sub">Leva menos de um minuto.</p>
+            </div>
+
+            <div class="field">
+              <label for="f-nome">Nome</label>
+              <input id="f-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required>
+              <p class="field__err" id="e-nome"></p>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="f-email">E-mail</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com" required>
+                <p class="field__err" id="e-email"></p>
+              </div>
+              <div class="field">
+                <label for="f-whats">WhatsApp</label>
+                <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" placeholder="(11) 91234-5678" required>
+                <p class="field__err" id="e-whats"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-perfil">Perfil ou canal principal</label>
+              <input id="f-perfil" name="perfil" type="text" autocomplete="off" placeholder="@seuperfil ou link" required>
+              <p class="field__err" id="e-perfil"></p>
+            </div>
+
+            <fieldset class="field">
+              <legend>Onde está sua audiência?</legend>
+              <div class="chips">
+                <label><input type="radio" name="canal" value="Instagram" id="c-ig"><span>Instagram</span></label>
+                <label><input type="radio" name="canal" value="TikTok" id="c-tt"><span>TikTok</span></label>
+                <label><input type="radio" name="canal" value="YouTube" id="c-yt"><span>YouTube</span></label>
+                <label><input type="radio" name="canal" value="Twitch/Kick" id="c-tw"><span>Twitch/Kick</span></label>
+                <label><input type="radio" name="canal" value="Telegram/WhatsApp" id="c-tg"><span>Telegram/WhatsApp</span></label>
+                <label><input type="radio" name="canal" value="Outro" id="c-ou"><span>Outro</span></label>
+              </div>
+              <p class="field__err" id="e-canal"></p>
+            </fieldset>
+
+            <fieldset class="field">
+              <legend>Tamanho da audiência</legend>
+              <div class="chips">
+                <label><input type="radio" name="audiencia" value="Até 10 mil" id="a-1"><span>Até 10 mil</span></label>
+                <label><input type="radio" name="audiencia" value="10 a 50 mil" id="a-2"><span>10 a 50 mil</span></label>
+                <label><input type="radio" name="audiencia" value="50 a 200 mil" id="a-3"><span>50 a 200 mil</span></label>
+                <label><input type="radio" name="audiencia" value="200 mil a 1 mi" id="a-4"><span>200 mil a 1 mi</span></label>
+                <label><input type="radio" name="audiencia" value="Mais de 1 mi" id="a-5"><span>+1 mi</span></label>
+              </div>
+              <p class="field__err" id="e-audiencia"></p>
+            </fieldset>
+
+            <div class="field">
+              <label class="check" for="f-aceite">
+                <input id="f-aceite" name="aceite" type="checkbox" required>
+                <span>Tenho 18 anos ou mais e aceito ser contatado pelo time do Chute.</span>
+              </label>
+              <p class="field__err" id="e-aceite"></p>
+            </div>
+
+            <button class="btn btn--volt btn--block" type="submit" id="f-submit">
+              <span class="btn__label">Quero ser afiliado</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="form__status" id="f-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="done" id="lead-done" hidden tabindex="-1">
+            <span class="done__badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+            <h2 class="form__title">Inscrição recebida!</h2>
+            <p>Valeu, <b id="done-name">craque</b>. Nosso time vai te chamar no WhatsApp para apresentar o programa de afiliados do Chute.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- TICKER -->
   <div class="ticker" aria-hidden="true">
-    <div class="ticker__band ticker__band--volt"><div class="ticker__track" data-ticker="Mais ↑|Menos ↓|Finalizações|Passes|Gols|Assistências|Cartões|Pontos|Rebotes|Bolas de 3"></div></div>
-    <div class="ticker__band ticker__band--lilac"><div class="ticker__track ticker__track--rev" data-ticker="Brasileirão|Premier League|Champions League|Bundesliga|Serie A|Ligue 1|MLS|NBA"></div></div>
+    <div class="ticker__band ticker__band--volt"><div class="ticker__track" data-ticker="Mais ↑|Menos ↓|Futebol|Basquete|Brasileirão|Champions League|Premier League|NBA"></div></div>
+    <div class="ticker__band ticker__band--lilac"><div class="ticker__track ticker__track--rev" data-ticker="30% de revenue share|Chutaço exclusivo|Escalação copiável|Mais ou Menos?"></div></div>
   </div>
 
-  <!-- DEMO -->
-  <section class="sec sec--chalk" id="demo" aria-labelledby="demo-title">
-    <div class="wrap demo">
-      <div class="demo__copy reveal">
-        <p class="eyebrow eyebrow--ink">Teste agora</p>
-        <h2 id="demo-title" class="h2">Mais ou Menos?</h2>
-        <p class="lead">O chute é uma linha de estatística do atleta. Num chute de <b>2,5 finalizações</b>, quem escolhe <b>Mais</b> ganha com 3 ou mais. Quem escolhe <b>Menos</b> ganha com 2 ou menos.</p>
-        <p class="lead lead--small">Faça seu palpite no card ao lado e veja a partida simulada até o apito final.</p>
-        <ul class="demo__score" aria-live="polite">
-          <li><span class="num" id="score-hits">0</span><span>acertos</span></li>
-          <li><span class="num" id="score-plays">0</span><span>chutes</span></li>
-        </ul>
-      </div>
-
-      <div class="demo__card-wrap reveal">
-        <article class="pick tilt" id="pick" data-state="idle">
-          <div class="pick__head">
-            <div class="pick__who">
-              <p class="pick__first" id="pick-first">Almeida Gabriel</p>
-              <p class="pick__last" id="pick-last">Barbosa</p>
-              <p class="pick__match"><span class="shield shield--a"></span>vs<span class="shield shield--b"></span><span class="pick__time">20:00</span></p>
-            </div>
-            <svg class="pick__shirt" id="pick-shirt" viewBox="0 0 120 110" aria-hidden="true">
-              <defs><pattern id="stripes" width="16" height="10" patternUnits="userSpaceOnUse"><rect width="8" height="10" fill="#C8262B"/><rect x="8" width="8" height="10" fill="#151515"/></pattern></defs>
-              <path class="shirt-body" d="M38 6 22 12 4 32l14 16 10-8v64h64V40l10 8 14-16L98 12 82 6c-4 8-12 12-22 12S42 14 38 6Z"/>
-              <path class="shirt-collar" d="M44 6c3 6 9 9 16 9s13-3 16-9" fill="none" stroke-width="5"/>
-            </svg>
-          </div>
-          <div class="pick__line">
-            <span class="pick__value" id="pick-line">2,5</span>
-            <span class="pick__stat" id="pick-stat">Finalizações</span>
-          </div>
-          <div class="pick__live" id="pick-live" hidden>
-            <div class="pick__clock"><span id="pick-minute">0'</span><div class="pick__bar"><span id="pick-bar"></span></div><span>90'</span></div>
-            <p class="pick__count"><span class="num" id="pick-count">0</span> <span id="pick-count-label">finalizações</span></p>
-          </div>
-          <div class="pick__btns" id="pick-btns">
-            <button type="button" class="pick__btn" data-choice="menos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>Menos</button>
-            <button type="button" class="pick__btn" data-choice="mais"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Mais</button>
-          </div>
-          <div class="pick__result" id="pick-result" hidden>
-            <p class="pick__verdict" id="pick-verdict"></p>
-            <button type="button" class="btn btn--volt btn--sm" id="pick-next">Próximo atleta</button>
-          </div>
-        </article>
-        <p class="demo__note">Simulação com resultado aleatório, só para mostrar a mecânica. Nada é apostado aqui.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMO FUNCIONA -->
-  <section class="sec sec--ink" id="como-funciona" aria-labelledby="como-title">
+  <section class="sec" aria-labelledby="passos-title">
     <div class="wrap">
-      <div class="sec__head reveal">
-        <p class="eyebrow">Como funciona</p>
-        <h2 id="como-title" class="h2">Jogar é simples.</h2>
+      <h2 id="passos-title" class="h2">Como funciona a parceria</h2>
+      <ol class="steps">
+        <li class="step">
+          <span class="step__n">1</span>
+          <h3>Inscreva-se</h3>
+          <p>Preencha o formulário com seu contato e seu canal principal.</p>
+        </li>
+        <li class="step">
+          <span class="step__n">2</span>
+          <h3>A gente te chama</h3>
+          <p>Nosso time apresenta o Chute, as condições e as ações para sua audiência.</p>
+        </li>
+        <li class="step step--volt">
+          <span class="step__n">3</span>
+          <h3>Divulgue e ganhe</h3>
+          <p>Sua audiência joga e você recebe sobre a receita que ela gera.</p>
+        </li>
+      </ol>
+      <div class="cta-row">
+        <a class="btn btn--lilac magnetic" href="#inscricao">Quero ser afiliado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-      <div class="steps">
-        <ol class="steps__list">
-          <li class="step is-active" data-step="1">
-            <span class="step__n">01</span>
-            <div><h3>Escolha de 2 a 12 atletas</h3><p>Monte sua escalação com atletas reais, com no mínimo 2 atletas diferentes.</p></div>
-          </li>
-          <li class="step" data-step="2">
-            <span class="step__n">02</span>
-            <div><h3>Mais ou Menos?</h3><p>Para cada atleta, diga se ele passa do chute ou fica abaixo dele.</p></div>
-          </li>
-          <li class="step" data-step="3">
-            <span class="step__n">03</span>
-            <div><h3>Defina formato e valor</h3><p>Escolha entre Cravada e Flex, compare os retornos e confirme. O retorno possível aparece antes de você confirmar.</p></div>
-          </li>
-          <li class="step" data-step="4">
-            <span class="step__n">04</span>
-            <div><h3>Acompanhe até o apito final</h3><p>Entrada e retorno no mesmo botão. Acertou, o retorno é creditado na carteira.</p></div>
-          </li>
-        </ol>
-        <div class="steps__phone">
-          <div class="phone">
-            <img src="assets/img/bilhete.webp" alt="Bilhete do app Chute: escalação com 3 atletas, valor de R$ 10,00, formatos Cravada e Flex e retorno possível de R$ 30,00" width="660" height="1011">
-            <span class="phone__hl" id="phone-hl" data-step="1" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FORMATOS -->
-  <section class="sec sec--chalk" id="formatos" aria-labelledby="formatos-title">
-    <div class="wrap formats">
-      <div class="formats__copy reveal">
-        <p class="eyebrow eyebrow--ink">Formatos</p>
-        <h2 id="formatos-title" class="h2">Dois jeitos de jogar.</h2>
-        <div class="switch" role="tablist" aria-label="Formato">
-          <button type="button" role="tab" id="tab-cravada" aria-selected="true" aria-controls="format-panel" data-format="cravada">Cravada</button>
-          <button type="button" role="tab" id="tab-flex" aria-selected="false" aria-controls="format-panel" data-format="flex">Flex</button>
-          <span class="switch__thumb" aria-hidden="true"></span>
-        </div>
-        <div id="format-panel" role="tabpanel" aria-live="polite">
-          <p class="formats__desc" data-for="cravada">Acerte <b>todas</b> as escolhas. Retorno maior.</p>
-          <p class="formats__desc" data-for="flex" hidden>Acerte <b>no mínimo duas</b>. Mesmo com erros, ainda há retorno.</p>
-        </div>
-        <p class="fine">O retorno inclui o valor da entrada e varia conforme o número e a combinação de atletas.</p>
-      </div>
-      <div class="formats__board reveal" data-format="cravada" id="format-board">
-        <div class="slip">
-          <div class="slip__row"><span class="slip__name">Gabriel Barbosa</span><span class="slip__pick slip__pick--menos">Menos</span><span class="mark mark--ok"></span></div>
-          <div class="slip__row"><span class="slip__name">André Silva</span><span class="slip__pick">Mais</span><span class="mark mark--ok"></span></div>
-          <div class="slip__row slip__row--x"><span class="slip__name">Alan Franco</span><span class="slip__pick">Mais</span><span class="mark mark--flip"></span></div>
-          <div class="slip__verdict">
-            <span class="slip__label"><span class="only-cravada">3 de 3 acertos</span><span class="only-flex">2 de 3 acertos</span></span>
-            <span class="slip__out"><span class="only-cravada">Cravada: retorno maior</span><span class="only-flex">Flex: ainda tem retorno</span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CHUTAÇO -->
-  <section class="sec sec--volt chutaco" id="chutaco" aria-labelledby="chutaco-title">
-    <div class="chutaco__rays" aria-hidden="true"></div>
-    <div class="chutaco__bolts" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-      <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-    </div>
-    <div class="wrap chutaco__grid">
-      <div class="chutaco__copy reveal">
-        <p class="eyebrow eyebrow--ink">Chutaço</p>
-        <h2 id="chutaco-title" class="h2">Uma escolha mais fácil, por pouco tempo.</h2>
-        <p class="lead">O Chutaço é um atleta com chute facilitado, num lado só, que entra na sua escalação como mais uma escolha.</p>
-        <ul class="chips">
-          <li>1 por escalação</li>
-          <li>Valor máximo de entrada</li>
-          <li>Válido só com saldo real</li>
-          <li>Quantidade e prazo limitados</li>
-        </ul>
-        <div class="callout">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
-          <p><b>Nunca fez uma escalação?</b> Tem Chutaço exclusivo para quem está chegando agora.</p>
-        </div>
-      </div>
-      <div class="chutaco__art reveal">
-        <img class="tilt" src="assets/img/card-chutaco.webp" alt="Card de Chutaço no app: Neymar da Silva Santos Junior, chute facilitado de 0,5 passes tentados, só com o botão Mais" width="566" height="545">
-        <span class="sticker sticker--volt s1">Chute facilitado</span>
-        <span class="sticker sticker--lilac s2">Um lado só</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIGAS -->
-  <section class="sec sec--ink" id="ligas" aria-labelledby="ligas-title">
-    <div class="wrap">
-      <div class="sec__head sec__head--row reveal">
-        <div>
-          <p class="eyebrow">Esportes e ligas</p>
-          <h2 id="ligas-title" class="h2">Os maiores campeonatos, atleta por atleta.</h2>
-        </div>
-        <p class="badge-live"><span class="dot"></span>Centenas de atletas por rodada</p>
-      </div>
-    </div>
-    <div class="leagues" aria-label="Campeonatos disponíveis">
-      <div class="leagues__row"><div class="leagues__track" data-leagues="Brasileirão Série A|Brasileirão Série B|Premier League|Champions League|Bundesliga"></div></div>
-      <div class="leagues__row"><div class="leagues__track leagues__track--rev" data-leagues="Serie A|Ligue 1|MLS|NBA|Champions League"></div></div>
-    </div>
-    <div class="wrap markets">
-      <div class="markets__tabs" role="tablist" aria-label="Esporte">
-        <button type="button" role="tab" aria-selected="true" id="tab-futebol" aria-controls="markets-panel" data-sport="futebol">Futebol</button>
-        <button type="button" role="tab" aria-selected="false" id="tab-basquete" aria-controls="markets-panel" data-sport="basquete">Basquete</button>
-      </div>
-      <div id="markets-panel" role="tabpanel" class="markets__panel">
-        <p class="markets__label" id="markets-label">Brasileirão A e B, Premier League, Champions, Bundesliga, Serie A, Ligue 1 e MLS</p>
-        <ul class="markets__grid" id="markets-grid"></ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESENHA -->
-  <section class="sec sec--ink2" id="resenha" aria-labelledby="resenha-title">
-    <div class="wrap resenha">
-      <div class="resenha__copy reveal">
-        <p class="eyebrow">Resenha</p>
-        <h2 id="resenha-title" class="h2">O jogo continua na resenha.</h2>
-        <p class="lead lead--dark">O Chute tem um feed social próprio. Publique sua escalação, siga outros perfis, curta, comente e copie escalações com um clique.</p>
-        <ol class="flow">
-          <li><span class="flow__ic"><svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg></span>Publica no perfil</li>
-          <li><span class="flow__ic"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span>Aparece na Resenha</li>
-          <li><span class="flow__ic"><svg viewBox="0 0 24 24"><path d="M9 9h10v10H9zM5 15V5h10"/></svg></span>Outros jogadores copiam</li>
-        </ol>
-      </div>
-      <div class="resenha__art reveal" aria-hidden="true">
-        <div class="ripples"><span></span><span></span><span></span></div>
-        <img class="resenha__card tilt" src="assets/img/card-populares.webp" alt="" width="658" height="386">
-        <div class="toasts" id="toasts"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGRAS -->
-  <section class="sec sec--chalk" id="regras" aria-labelledby="regras-title">
-    <div class="wrap">
-      <div class="sec__head reveal">
-        <p class="eyebrow eyebrow--ink">Regras claras</p>
-        <h2 id="regras-title" class="h2">Transparência em cada escolha.</h2>
-      </div>
-      <div class="rules">
-        <article class="rule reveal"><span class="rule__ic"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span><h3>Não entrou em campo</h3><p>O atleta é anulado e o retorno é recalculado.</p></article>
-        <article class="rule reveal"><span class="rule__ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg></span><h3>Menos de 2 válidas</h3><p>Com menos de 2 seleções válidas, o valor é devolvido.</p></article>
-        <article class="rule reveal"><span class="rule__ic"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14"/></svg></span><h3>Bateu exatamente o chute</h3><p>A escolha é anulada e o retorno é recalculado.</p></article>
-        <article class="rule reveal"><span class="rule__ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>90 minutos</h3><p>Vale o tempo regulamentar com acréscimos.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- PARCEIROS -->
-  <section class="sec sec--ink partners" id="parceiros" aria-labelledby="parceiros-title">
-    <div class="wrap partners__grid">
-      <div class="partners__copy reveal">
-        <p class="eyebrow eyebrow--lilac">Para criadores e parceiros</p>
-        <h2 id="parceiros-title" class="h2">Sua audiência joga junto com você.</h2>
-        <ul class="perks">
-          <li><b>Escalação copiável.</b> Publique a sua e seus seguidores copiam direto no app.</li>
-          <li><b>Primeira conversão facilitada.</b> Chutaço exclusivo para novos usuários.</li>
-          <li><b>Engajamento recorrente.</b> Feed social e escalações populares trazem a audiência de volta.</li>
-          <li><b>Fácil de explicar.</b> Cabe num vídeo curto, com uma pergunta só: Mais ou Menos?</li>
-        </ul>
-        <a class="btn btn--lilac magnetic" data-link="parceiro" href="https://chute.com.br">Quero ser parceiro <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-      <div class="share reveal">
-        <p class="share__num"><span class="num countup" data-to="30">30</span><span class="share__pct">%</span></p>
-        <p class="share__label">de Revenue Share</p>
-        <p class="share__text">Você recebe uma comissão sobre a receita gerada por todos os jogadores que trouxer para o Chute.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- JURÍDICO -->
-  <section class="sec sec--chalk2" id="seguranca" aria-labelledby="seguranca-title">
-    <div class="wrap legal">
-      <div class="legal__seal reveal" aria-hidden="true">
-        <svg viewBox="0 0 200 200" class="seal__ring"><defs><path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text><textPath href="#circ" textLength="496" lengthAdjust="spacing">FANTASY SPORT · LEI Nº 14.790/2023 · ART. 49 ·</textPath></text></svg>
-        <span class="seal__core">art.<b>49</b></span>
-      </div>
-      <div class="legal__copy reveal">
-        <p class="eyebrow eyebrow--ink">Segurança jurídica</p>
-        <h2 id="seguranca-title" class="h2">Uma categoria prevista em lei.</h2>
-        <p class="lead">O fantasy sport está previsto na Lei nº 14.790/2023, art. 49. Não configura aposta de quota fixa nem loteria, desde que cumpra os requisitos legais:</p>
-        <ul class="checks">
-          <li>Equipes com no mínimo 2 atletas reais, com desempenho que depende de conhecimento e estratégia</li>
-          <li>Regras preestabelecidas</li>
-          <li>Premiação garantida, independente do número de participantes</li>
-          <li>Resultado que não depende de um único atleta</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="final" aria-labelledby="final-title">
-    <div class="final__rings" aria-hidden="true"><span></span><span></span><span></span></div>
-    <div class="wrap final__inner">
-      <h2 id="final-title" class="final__title"><span class="final__pre">Faz um</span><img src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348"></h2>
-      <img class="final__icon" src="assets/img/app-icon.webp" alt="" width="400" height="400">
-      <span class="sticker sticker--volt f1" aria-hidden="true">Mais</span>
-      <span class="sticker sticker--lilac f2" aria-hidden="true">Menos</span>
-      <a class="btn btn--volt btn--lg magnetic" data-link="app" href="https://chute.com.br">Fazer meu chute <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
 </main>
@@ -356,9 +184,8 @@
 <footer class="footer">
   <div class="wrap footer__inner">
     <img class="footer__logo" src="assets/img/logo-chute.webp" alt="Chute" width="1200" height="348">
-    <p class="footer__by">Fantasy pick'em desenvolvido e distribuído pela <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></p>
-    <p class="footer__legal"><span class="age">18+</span> Proibido para menores de 18 anos · Jogo responsável</p>
-    <p class="footer__copy">© 2026 Chute · chute.com.br</p>
+    <p class="footer__by">Fantasy pick'em da <img src="assets/img/logo-3c-picks.webp" alt="3C Picks" width="265" height="80"></p>
+    <p class="footer__legal"><span class="age">18+</span> Proibido para menores de 18 anos · Jogo responsável · Fantasy sport previsto na Lei nº 14.790/2023</p>
   </div>
 </footer>
 
