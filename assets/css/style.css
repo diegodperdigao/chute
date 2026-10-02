@@ -60,11 +60,14 @@ body::after {
 .load { animation: up .9s var(--ease) both; animation-delay: var(--d, 0s); }
 
 .pill {
-  align-self: flex-start;
-  font-family: var(--display); font-style: italic; font-weight: 800;
-  font-size: 15px; letter-spacing: 2px; text-transform: uppercase;
-  padding: 5px 16px; border-radius: 999px;
-  background: var(--volt); color: var(--ink);
+  display: inline-block; padding: 6px 16px;
+  background: var(--lilac); transform: skewX(-14deg);
+  box-shadow: 4px 4px 0 var(--volt);
+}
+.pill > span {
+  display: inline-block; transform: skewX(14deg);
+  font-family: var(--display); font-style: italic; font-weight: 900; font-size: 17px; line-height: 1;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--ink);
 }
 
 /* ---------- stage + background ---------- */
@@ -81,6 +84,8 @@ body::after {
   -webkit-mask: radial-gradient(circle, #000 0%, transparent 46%); mask: radial-gradient(circle, #000 0%, transparent 46%);
   animation: spin 90s linear infinite;
 }
+/* background motion: data-motion="rays" or "words" keeps only that layer; remove the attribute to show both */
+.bg[data-motion="rays"] .bg__words, .bg[data-motion="words"] .bg__rays { display: none; }
 .bg__spot { position: absolute; inset: 0; background: radial-gradient(460px circle at var(--sx, 74%) var(--sy, 40%), rgba(201, 150, 249, .16), transparent 60%); }
 
 .bg__words { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; display: flex; flex-direction: column; gap: 0; rotate: -6deg; opacity: .9; }
@@ -99,17 +104,6 @@ body::after {
 /* ---------- nav ---------- */
 .nav__inner { display: flex; align-items: center; gap: 14px; padding-block: 22px; }
 .nav__logo img { height: 34px; width: auto; }
-.nav__tag {
-  display: inline-block; padding: 6px 16px;
-  background: var(--lilac); transform: skewX(-14deg);
-  box-shadow: 4px 4px 0 var(--volt);
-  animation: pop-in .6s var(--bounce) .2s both;
-}
-.nav__tag span {
-  display: inline-block; transform: skewX(14deg);
-  font-family: var(--display); font-style: italic; font-weight: 900; font-size: 19px; line-height: 1;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--ink);
-}
 .nav__by { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--mute); }
 .nav__by img { height: 20px; width: auto; }
 @media (max-width: 480px) { .nav__by { display: none; } }
