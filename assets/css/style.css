@@ -1,4 +1,4 @@
-/* Chute Afiliados
+/* Chute Parceiros
    Layout: uma única primeira dobra. Estádio à noite ao fundo (raios, campo em perspectiva,
    letreiros vazados); promessa à esquerda e o formulário à direita, com o mascote sentado no
    card. Tipografia condensada em itálico como placar; adesivos com sombra dura. */
@@ -107,7 +107,14 @@ body::after {
 /* ---------- nav ---------- */
 .nav__inner { display: flex; align-items: center; gap: 14px; padding-block: 22px; }
 .nav__logo img { height: 34px; width: auto; }
-.nav__tag { font-family: var(--display); font-style: italic; font-weight: 800; font-size: 18px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lilac); }
+.nav__tag {
+  font-family: var(--display); font-style: italic; font-weight: 900; font-size: 18px; line-height: 1;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 999px;
+  background: var(--lilac); color: var(--ink);
+  border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink), 0 0 0 1px rgba(201, 150, 249, .35);
+  animation: pop-in .6s var(--bounce) .2s both;
+}
 .nav__by { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--mute); }
 .nav__by img { height: 20px; width: auto; }
 @media (max-width: 480px) { .nav__by { display: none; } }
@@ -237,8 +244,12 @@ body::after {
 .confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 90; }
 
 /* ---------- ticker ---------- */
-.ticker { width: 110%; margin-left: -5%; background: var(--volt); color: var(--ink); border-block: 3px solid var(--ink); rotate: -1.5deg; margin-bottom: 28px; overflow: hidden; }
+.ticker { position: relative; overflow: clip; padding-block: 24px 40px; }
+.ticker__band { width: 112%; margin-left: -6%; border-block: 3px solid var(--ink); overflow: hidden; }
+.ticker__band--volt { background: var(--volt); color: var(--ink); rotate: -2deg; position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(0, 0, 0, .45); }
+.ticker__band--lilac { background: var(--lilac); color: var(--ink); rotate: 1.8deg; margin-top: -22px; }
 .ticker__track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
+.ticker__track--rev { animation-direction: reverse; animation-duration: 42s; }
 .ticker__track span {
   display: inline-flex; align-items: center; gap: 22px; padding: 10px 11px;
   font-family: var(--display); font-style: italic; font-weight: 900; font-size: clamp(20px, 2.4vw, 28px); text-transform: uppercase; white-space: nowrap;

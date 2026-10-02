@@ -1,6 +1,6 @@
-# Chute Afiliados
+# Chute Parceiros
 
-Landing page de captação de afiliados do Chute, o fantasy pick'em da 3C Picks.
+Landing page de captação de parceiros do Chute, o fantasy pick'em da 3C Picks.
 HTML, CSS e JS puros, sem build.
 
 ```
