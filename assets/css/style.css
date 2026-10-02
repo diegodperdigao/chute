@@ -60,13 +60,14 @@ body::after {
 .load { animation: up .9s var(--ease) both; animation-delay: var(--d, 0s); }
 
 .pill {
-  align-self: flex-start;
-  font-family: var(--display); font-style: italic; font-weight: 800;
-  font-size: 15px; letter-spacing: 2px; text-transform: uppercase;
-  padding: 5px 16px; border-radius: 999px;
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--display); font-style: italic; font-weight: 900;
+  font-size: 17px; line-height: 1; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 18px 5px 5px; border-radius: 999px;
   background: var(--lilac); color: var(--ink);
-  box-shadow: 3px 3px 0 var(--volt);
 }
+.pill__ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); flex: none; }
+.pill__ic svg { width: 15px; height: 15px; fill: var(--volt); }
 
 /* ---------- stage + background ---------- */
 .stage { position: relative; isolation: isolate; overflow: hidden; }
@@ -101,7 +102,7 @@ body::after {
 
 /* ---------- nav ---------- */
 .nav__inner { display: flex; align-items: center; gap: 14px; padding-block: 22px; }
-.nav__logo img { height: 34px; width: auto; }
+.nav__logo img { height: clamp(40px, 4.4vw, 56px); width: auto; }
 .nav__by { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--mute); }
 .nav__by img { height: 20px; width: auto; }
 @media (max-width: 480px) { .nav__by { display: none; } }
@@ -171,8 +172,8 @@ body::after {
   50%, 92% { transform: translateX(100%); background: var(--volt); }
   100% { transform: translateX(0); background: var(--lilac); }
 }
-@keyframes opt-a { 0% { color: var(--ink); } 46% { color: var(--chalk); } 96% { color: var(--ink); } }
-@keyframes opt-b { 0% { color: var(--chalk); } 46% { color: var(--ink); } 96% { color: var(--chalk); } }
+@keyframes opt-a { 0% { color: var(--ink); } 47% { color: var(--chalk); } 98% { color: var(--ink); } }
+@keyframes opt-b { 0% { color: var(--chalk); } 47% { color: var(--ink); } 98% { color: var(--chalk); } }
 
 .card {
   position: relative; z-index: 1;
