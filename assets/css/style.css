@@ -60,14 +60,12 @@ body::after {
 .load { animation: up .9s var(--ease) both; animation-delay: var(--d, 0s); }
 
 .pill {
-  align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--display); font-style: italic; font-weight: 900;
-  font-size: 17px; line-height: 1; letter-spacing: 2px; text-transform: uppercase;
-  padding: 5px 18px 5px 5px; border-radius: 999px;
-  background: var(--lilac); color: var(--ink);
+  align-self: flex-start;
+  font-family: var(--display); font-style: italic; font-weight: 800;
+  font-size: 15px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 5px 16px; border-radius: 999px;
+  background: var(--volt); color: var(--ink);
 }
-.pill__ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); flex: none; }
-.pill__ic svg { width: 15px; height: 15px; fill: var(--volt); }
 
 /* ---------- stage + background ---------- */
 .stage { position: relative; isolation: isolate; overflow: hidden; }
@@ -78,9 +76,9 @@ body::after {
     var(--ink);
 }
 .bg__rays {
-  position: absolute; left: 74%; top: 42%; width: 1900px; height: 1900px; translate: -50% -50%;
-  background: repeating-conic-gradient(from 0deg, rgba(247, 246, 242, .05) 0deg 5deg, transparent 5deg 15deg);
-  -webkit-mask: radial-gradient(circle, #000 0%, transparent 46%); mask: radial-gradient(circle, #000 0%, transparent 46%);
+  position: absolute; left: 58%; top: 40%; width: 2000px; height: 2000px; translate: -50% -50%;
+  background: repeating-conic-gradient(from 0deg, rgba(247, 246, 242, .075) 0deg 5deg, transparent 5deg 15deg);
+  -webkit-mask: radial-gradient(circle, #000 0%, transparent 50%); mask: radial-gradient(circle, #000 0%, transparent 50%);
   animation: spin 90s linear infinite;
 }
 /* background motion: data-motion="rays" or "words" keeps only that layer; remove the attribute to show both */
@@ -94,9 +92,9 @@ body::after {
   padding-inline: 28px; white-space: nowrap;
   font-family: var(--display); font-style: italic; font-weight: 900; text-transform: uppercase;
   font-size: clamp(120px, 17vw, 260px); line-height: .95;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(247, 246, 242, .07);
+  color: transparent; -webkit-text-stroke: 1.5px rgba(247, 246, 242, .11);
 }
-.bg__track--rev span { -webkit-text-stroke-color: rgba(201, 150, 249, .1); }
+.bg__track--rev span { -webkit-text-stroke-color: rgba(201, 150, 249, .16); }
 
 .bg__fade { position: absolute; inset: auto 0 0 0; height: 30%; background: linear-gradient(transparent, rgba(14, 14, 13, .7)); }
 
