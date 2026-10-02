@@ -97,7 +97,7 @@
     { name: 'email', err: 'e-email', check: f => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()) || 'Confira o e-mail.' },
     { name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
     { name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
-    { name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais.' },
+    { name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais e aceita os termos.' },
   ];
 
   function validate(only) {
@@ -120,6 +120,25 @@
     if (e.target.closest('.field')?.classList.contains('has-error')) validate(e.target.name);
   });
 
+  /* ---------- terms dialog ---------- */
+  const terms = $('#termos');
+  const aceite = $('#f-aceite');
+  document.querySelectorAll('.terms-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault(); // keep the label from toggling the checkbox
+      if (terms.showModal) terms.showModal(); else terms.setAttribute('open', '');
+    });
+  });
+  const closeTerms = () => (terms.close ? terms.close() : terms.removeAttribute('open'));
+  terms.querySelector('[data-close]').addEventListener('click', closeTerms);
+  terms.querySelector('[data-accept]').addEventListener('click', () => {
+    aceite.checked = true;
+    validate('aceite');
+    closeTerms();
+    aceite.focus({ preventScroll: true });
+  });
+  terms.addEventListener('click', e => { if (e.target === terms) closeTerms(); });
+
   function utm() {
     const out = {};
     try {
@@ -141,7 +160,7 @@
       email: f.email.value.trim(),
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
       perfil: f.perfil.value.trim(),
-      aceite: true,
+      aceite_termos: true,
       origem: location.href.split('#')[0],
       enviado_em: new Date().toISOString(),
       ...utm(),

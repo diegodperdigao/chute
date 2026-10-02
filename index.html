@@ -93,7 +93,7 @@
           <div class="field">
             <label class="check" for="f-aceite">
               <input id="f-aceite" name="aceite" type="checkbox" required>
-              <span>Tenho 18 anos ou mais e aceito ser contatado pelo time do Chute.</span>
+              <span>Tenho 18 anos ou mais e aceito os <a href="#termos" class="terms-link" aria-haspopup="dialog">termos e condições</a>.</span>
             </label>
             <p class="field__err" id="e-aceite"></p>
           </div>
@@ -118,6 +118,38 @@
     <div class="ticker__band ticker__band--lilac"><div class="ticker__track ticker__track--rev" data-ticker="Mais ou Menos|Brasileirão|Champions League|Premier League|NBA"></div></div>
   </div>
 </main>
+
+<dialog class="terms" id="termos" aria-labelledby="termos-title">
+  <div class="terms__inner">
+    <div class="terms__head">
+      <h2 id="termos-title" class="terms__title">Termos e condições</h2>
+      <button type="button" class="terms__close" data-close aria-label="Fechar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="terms__body">
+      <p>O Chute é um produto da 3C Picks. Este texto explica como usamos os dados que você envia no cadastro do programa de parceiros, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
+      <h3>Dados que coletamos</h3>
+      <p>Nome, e-mail, WhatsApp e o perfil ou canal que você informar. Também registramos a origem do acesso, como os parâmetros de campanha do link.</p>
+      <h3>Para que usamos</h3>
+      <p>Somente para entrar em contato com você sobre o programa de parceiros do Chute: apresentar o programa, avaliar a parceria e enviar informações relacionadas a ela. Não vendemos seus dados e não os usamos para outras finalidades.</p>
+      <h3>Base legal</h3>
+      <p>Seu consentimento, dado ao marcar a caixa do formulário (art. 7º, I, da LGPD).</p>
+      <h3>Compartilhamento</h3>
+      <p>Apenas com fornecedores que nos ajudam a operar o contato, como ferramentas de cadastro e de mensagens, que tratam os dados em nosso nome e com sigilo.</p>
+      <h3>Por quanto tempo guardamos</h3>
+      <p>Enquanto durar a conversa sobre a parceria ou até você pedir a exclusão.</p>
+      <h3>Seus direitos</h3>
+      <p>Você pode, a qualquer momento, pedir acesso, correção ou exclusão dos seus dados e retirar o consentimento. Basta responder a qualquer mensagem nossa ou pedir pelo mesmo canal em que falamos com você.</p>
+      <h3>Idade</h3>
+      <p>O programa é exclusivo para maiores de 18 anos.</p>
+      <p class="terms__date">Última atualização: outubro de 2026.</p>
+    </div>
+    <div class="terms__foot">
+      <button type="button" class="btn btn--block" data-accept>Li e aceito</button>
+    </div>
+  </div>
+</dialog>
 
 <footer class="footer">
   <div class="wrap footer__inner">

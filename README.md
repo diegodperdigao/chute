@@ -17,7 +17,7 @@ Para ver localmente: `python3 -m http.server` na raiz e abrir http://localhost:8
 O envio é um `POST` com JSON para `FORM_ENDPOINT`, no topo de `assets/js/main.js`:
 
 ```json
-{ "nome": "", "email": "", "whatsapp": "11912345678", "perfil": "@perfil", "aceite": true,
+{ "nome": "", "email": "", "whatsapp": "11912345678", "perfil": "@perfil", "aceite_termos": true,
   "origem": "https://...", "enviado_em": "2026-10-02T19:00:00.000Z",
   "utm_source": "...", "utm_campaign": "..." }
 ```
