@@ -243,6 +243,7 @@ body::after {
 .btn--block { width: 100%; margin-top: 4px; }
 .btn[aria-busy="true"] { opacity: .7; pointer-events: none; }
 
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form__status { font-size: 14px; font-weight: 600; color: var(--error); text-align: center; }
 .form__status:empty { display: none; }
 

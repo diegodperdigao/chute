@@ -1,9 +1,9 @@
 (() => {
   'use strict';
 
-  // Para onde as inscrições são enviadas (POST com JSON).
-  // TODO: definir o destino (planilha, CRM, Supabase, webhook...). Enquanto estiver vazio,
-  // o formulário só simula o envio e as inscrições NÃO são salvas.
+  // URL do Web App do Google Apps Script (integracoes/apps-script/Code.gs), que grava a
+  // inscrição na planilha e repassa ao CRM. Termina em /exec. Veja integracoes/README.md.
+  // Enquanto estiver vazio, o formulário só simula o envio e as inscrições NÃO são salvas.
   const FORM_ENDPOINT = '';
 
   const $ = s => document.querySelector(s);
@@ -160,6 +160,7 @@
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
       perfil: f.perfil.value.trim(),
       aceite_termos: true,
+      empresa: f.empresa.value, // honeypot: real people leave it empty
       origem: location.href.split('#')[0],
       enviado_em: new Date().toISOString(),
       ...utm(),
@@ -170,12 +171,16 @@
     label.textContent = 'Enviando…';
     try {
       if (FORM_ENDPOINT) {
+        // text/plain keeps this a "simple" request, so Apps Script needs no CORS preflight
         const res = await fetch(FORM_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload),
+          redirect: 'follow',
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
+        const out = await res.json().catch(() => ({}));
+        if (!out.ok) throw new Error(out.erro || 'Resposta inválida');
       } else {
         console.warn('[Chute] FORM_ENDPOINT vazio: inscrição não foi salva.', payload);
         await new Promise(r => setTimeout(r, 600));
