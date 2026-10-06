@@ -23,6 +23,31 @@ const TIPOS = ['influencer', 'tipster', 'streamer', 'agencia'];
 
 const LIMITES = { nome: 120, email: 160, whatsapp: 11, perfil: 200, origem: 500, utm: 200 };
 
+/**
+ * TESTE: selecione "testar" na barra do editor e clique em Executar.
+ * Grava um lead de exemplo na aba Inscrições e envia ao CRM sempre com test: true.
+ * O resultado aparece no Registro de execução, embaixo do código.
+ */
+function testar() {
+  Logger.log('1/4 Iniciando teste...');
+  const props = PropertiesService.getScriptProperties();
+  Logger.log('2/4 CRM_URL: ' + (props.getProperty('CRM_URL') || '(vazia)') +
+    ' | CRM_API_KEY: ' + (props.getProperty('CRM_API_KEY') ? 'configurada' : '(vazia)') +
+    ' | CRM_TESTE: ' + (props.getProperty('CRM_TESTE') || '(vazia, vale true)'));
+
+  const lead = normalizar({
+    nome: 'Teste Chute', email: 'teste@exemplo.com', whatsapp: '11912345678',
+    tipo: 'influencer', perfil: '@teste', aceite_termos: true, origem: 'teste manual (Apps Script)',
+  });
+  const linha = gravar(lead);
+  Logger.log('3/4 Linha ' + linha + ' gravada na aba "' + ABA + '" da planilha "' + SpreadsheetApp.getActiveSpreadsheet().getName() + '".');
+
+  const crm = enviarAoCrm(lead, true);
+  atualizarStatus(linha, crm);
+  Logger.log('4/4 CRM: ' + crm.status + (crm.id ? ' | id ' + crm.id : '') + ' | ' + crm.resposta);
+  if (crm.status === 'enviado') Logger.log('Tudo certo! Confira o lead (marcado como teste) no CRM.');
+}
+
 /* ---------- entrada ---------- */
 
 function doPost(e) {
@@ -90,6 +115,9 @@ function validar(l) {
 
 function aba() {
   const planilha = SpreadsheetApp.getActiveSpreadsheet();
+  if (!planilha) {
+    throw new Error('Este script não está ligado a uma planilha. Abra a planilha e crie o script por Extensões → Apps Script.');
+  }
   let sh = planilha.getSheetByName(ABA);
   if (!sh) sh = planilha.insertSheet(ABA);
   if (sh.getLastRow() === 0) {
@@ -217,21 +245,6 @@ function instalarGatilho() {
     .filter(t => t.getHandlerFunction() === 'reenviarPendentes')
     .forEach(t => ScriptApp.deleteTrigger(t));
   ScriptApp.newTrigger('reenviarPendentes').timeBased().everyMinutes(15).create();
-}
-
-/**
- * Teste pelo editor: grava um lead de exemplo na planilha e envia ao CRM sempre com test: true.
- * Veja o resultado no registro de execução e nas colunas crm_* da planilha.
- */
-function testar() {
-  const lead = normalizar({
-    nome: 'Teste Chute', email: 'teste@exemplo.com', whatsapp: '11912345678',
-    tipo: 'influencer', perfil: '@teste', aceite_termos: true, origem: 'teste manual (Apps Script)',
-  });
-  const linha = gravar(lead);
-  const crm = enviarAoCrm(lead, true);
-  atualizarStatus(linha, crm);
-  Logger.log(JSON.stringify(crm));
 }
 
 function responder(obj) {
