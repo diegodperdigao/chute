@@ -2,9 +2,9 @@
   'use strict';
 
   // URL do Web App do Google Apps Script (integracoes/apps-script/Code.gs), que grava a
-  // inscrição na planilha e repassa ao CRM. Termina em /exec. Veja integracoes/README.md.
-  // Enquanto estiver vazio, o formulário só simula o envio e as inscrições NÃO são salvas.
-  const FORM_ENDPOINT = '';
+  // inscrição na planilha e repassa ao CRM. Veja integracoes/README.md.
+  // Ao atualizar o script, use "Gerenciar implantações → Nova versão" para manter esta URL.
+  const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzViCpmeA9a69q8GTKRrIOjSbnHH6FoY1tUW2ENQ4GgRqputI61p_JrVgnMKyYOxVJX/exec';
 
   const $ = s => document.querySelector(s);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
