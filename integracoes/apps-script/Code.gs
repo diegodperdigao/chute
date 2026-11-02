@@ -138,6 +138,7 @@ function aba() {
     sh.appendRow(COLUNAS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, COLUNAS.length).setFontWeight('bold');
+    colorirTier(sh);
   } else {
     migrarCabecalho(sh);
   }
@@ -151,6 +152,31 @@ function migrarCabecalho(sh) {
   if (perfil < 0 || cab.indexOf('faturamento') >= 0) return;
   sh.insertColumnsAfter(perfil + 1, 2);
   sh.getRange(1, perfil + 2, 1, 2).setValues([['faturamento', 'tier']]).setFontWeight('bold');
+  colorirTier(sh);
+}
+
+// cor de fundo da coluna tier: 1 (maior faturamento) em verde forte até 5 em cinza; o número continua visível
+const CORES_TIER = {
+  1: ['#0B8043', '#FFFFFF'],
+  2: ['#57BB8A', '#FFFFFF'],
+  3: ['#FFE066', '#3A2F00'],
+  4: ['#FFCC99', '#5A2E00'],
+  5: ['#E8E8E8', '#444444'],
+};
+
+/** Pinta a coluna tier por nível (formatação condicional). Pode rodar de novo sem duplicar as regras. */
+function colorirTier(sh) {
+  sh = sh || aba();
+  const col = COLUNAS.indexOf('tier') + 1;
+  const faixa = sh.getRange(2, col, sh.getMaxRows() - 1, 1);
+  const outras = sh.getConditionalFormatRules()
+    .filter(r => !r.getRanges().some(g => g.getColumn() === col && g.getNumColumns() === 1));
+  const regras = Object.keys(CORES_TIER).map(t => SpreadsheetApp.newConditionalFormatRule()
+    .whenNumberEqualTo(Number(t))
+    .setBackground(CORES_TIER[t][0]).setFontColor(CORES_TIER[t][1]).setBold(true)
+    .setRanges([faixa]).build());
+  sh.setConditionalFormatRules(outras.concat(regras));
+  faixa.setHorizontalAlignment('center');
 }
 
 // Impede que um texto vire fórmula na planilha (ex.: "=HYPERLINK(...)" ou "@perfil")

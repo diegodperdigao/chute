@@ -80,6 +80,8 @@ A etapa 2 pergunta o faturamento mensal. O script grava a faixa (`faturamento`) 
 
 No CRM, a faixa e o tier vão nas notas do contato e como tags (`Tier N` e o nome do evento).
 
+Na planilha, a coluna `tier` é colorida por nível (1 verde forte → 5 cinza), sem esconder o número. A função `colorirTier` aplica essas cores; ela roda sozinha quando a aba é criada e pode ser rodada de novo pelo editor sem duplicar as regras.
+
 O pixel da Meta (`META_PIXEL_ID` = `1113780724748958`, em `assets/js/main.js`) dispara `PageView` na visita (único evento padrão) e, só depois que a inscrição é salva, os eventos personalizados `LeadAfiliado` + o evento da faixa, ambos com `{ tier }`.
 
 Planilhas criadas antes desta mudança ganham as colunas `faturamento` e `tier` sozinhas (depois de `perfil`) na primeira inscrição recebida.
