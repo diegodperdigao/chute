@@ -32,12 +32,13 @@ Corpo enviado ao CRM (`POST`, `application/json`):
   "nome": "Diego",
   "email": "diego@exemplo.com",
   "telefone": "+5511912345678",
-  "perfil": "influencer | tipster | streamer | agencia",
+  "perfil": "influencer | agencia | publisher | outro",
   "origem": "LP Chute Parceiros",
   "url_origem": "https://...",
   "utm": { "source": "", "medium": "", "campaign": "", "term": "", "content": "" },
   "consentimento_lgpd": true,
-  "notes": "Perfil/canal: @perfil | ref: ... | ID na planilha: ...",
+  "notes": "Perfil/canal: @perfil | Faturamento: R$ 10 – 50 mil | Tier 5 | ref: ... | ID na planilha: ...",
+  "tags": ["Tier 5", "LeadAfiliado_10k_50k"],
   "test": true
 }
 ```
@@ -63,9 +64,29 @@ No editor, selecione a função `testar` e clique em **Executar**. Na primeira v
 ### 5. Reenvio automático (recomendado)
 Execute uma vez a função `instalarGatilho`. Ela agenda `reenviarPendentes()` a cada 15 minutos para os leads que falharam no CRM.
 
+## Faturamento e tier
+
+O formulário tem 2 etapas: **Seus dados** (nome, e-mail, WhatsApp) e **Seu perfil** (você é, perfil principal, faturamento mensal, termos). Ele é enviado uma vez só, no fim.
+
+A etapa 2 pergunta o faturamento mensal. O script grava a faixa (`faturamento`) e calcula o `tier` a partir dela (o tier que vem do navegador é ignorado). Faixa inválida é recusada.
+
+| Faixa (`faturamento`) | Tier | Evento no pixel |
+|---|---|---|
+| `10k_50k` · R$ 10 – 50 mil | 5 | `LeadAfiliado_10k_50k` |
+| `50k_100k` · R$ 50 – 100 mil | 4 | `LeadAfiliado_50k_100k` |
+| `100k_300k` · R$ 100 – 300 mil | 3 | `LeadAfiliado_100k_300k` |
+| `300k_1M` · R$ 300 mil – 1 milhão | 2 | `LeadAfiliado_300k_1M` |
+| `1M_mais` · + R$ 1 milhão | 1 | `LeadAfiliado_1M_mais` |
+
+No CRM, a faixa e o tier vão nas notas do contato e como tags (`Tier N` e o nome do evento).
+
+O pixel da Meta (`META_PIXEL_ID` em `assets/js/main.js`) dispara `PageView` na visita e, só depois que a inscrição é salva, `Lead` + o evento da faixa com `{ tier }`.
+
+Planilhas criadas antes desta mudança ganham as colunas `faturamento` e `tier` sozinhas (depois de `perfil`) na primeira inscrição recebida.
+
 ## Colunas da planilha
 
-`recebido_em, id, nome, email, whatsapp, tipo, perfil, aceite_termos, origem, utm_source, utm_medium, utm_campaign, utm_content, utm_term, ref, crm_status, crm_id, crm_resposta, crm_teste`
+`recebido_em, id, nome, email, whatsapp, tipo, perfil, faturamento, tier, aceite_termos, origem, utm_source, utm_medium, utm_campaign, utm_content, utm_term, ref, crm_status, crm_id, crm_resposta, crm_teste`
 
 ## Segurança
 

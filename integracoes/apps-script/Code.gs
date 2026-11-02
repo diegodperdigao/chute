@@ -13,13 +13,22 @@
 const ABA = 'Inscrições';
 
 const COLUNAS = [
-  'recebido_em', 'id', 'nome', 'email', 'whatsapp', 'tipo', 'perfil', 'aceite_termos',
+  'recebido_em', 'id', 'nome', 'email', 'whatsapp', 'tipo', 'perfil', 'faturamento', 'tier', 'aceite_termos',
   'origem', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ref',
   'crm_status', 'crm_id', 'crm_resposta', 'crm_teste',
 ];
 
 // valores aceitos pelo campo "perfil" do CRM
-const TIPOS = ['influencer', 'tipster', 'streamer', 'agencia'];
+const TIPOS = ['influencer', 'agencia', 'publisher', 'outro'];
+
+// faixas de faturamento da etapa 2 → tier do afiliado (o tier é calculado aqui, não confiamos no navegador)
+const FAIXAS = {
+  '10k_50k':   { rotulo: 'R$ 10 – 50 mil',          tier: 5, evento: 'LeadAfiliado_10k_50k' },
+  '50k_100k':  { rotulo: 'R$ 50 – 100 mil',         tier: 4, evento: 'LeadAfiliado_50k_100k' },
+  '100k_300k': { rotulo: 'R$ 100 – 300 mil',        tier: 3, evento: 'LeadAfiliado_100k_300k' },
+  '300k_1M':   { rotulo: 'R$ 300 mil – 1 milhão',   tier: 2, evento: 'LeadAfiliado_300k_1M' },
+  '1M_mais':   { rotulo: '+ R$ 1 milhão',           tier: 1, evento: 'LeadAfiliado_1M_mais' },
+};
 
 const LIMITES = { nome: 120, email: 160, whatsapp: 11, perfil: 200, origem: 500, utm: 200 };
 
@@ -37,7 +46,7 @@ function testar() {
 
   const lead = normalizar({
     nome: 'Teste Chute', email: 'teste@exemplo.com', whatsapp: '11912345678',
-    tipo: 'influencer', perfil: '@teste', aceite_termos: true, origem: 'teste manual (Apps Script)',
+    tipo: 'influencer', perfil: '@teste', faturamento: '10k_50k', aceite_termos: true, origem: 'teste manual (Apps Script)',
   });
   const linha = gravar(lead);
   Logger.log('3/4 Linha ' + linha + ' gravada na aba "' + ABA + '" da planilha "' + SpreadsheetApp.getActiveSpreadsheet().getName() + '".');
@@ -82,7 +91,7 @@ function doGet() {
 
 function normalizar(d) {
   const txt = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
-  return {
+  const lead = {
     recebido_em: new Date(),
     id: Utilities.getUuid(),
     nome: txt(d.nome, LIMITES.nome),
@@ -90,6 +99,7 @@ function normalizar(d) {
     whatsapp: txt(d.whatsapp, 20).replace(/\D/g, '').slice(0, LIMITES.whatsapp),
     tipo: txt(d.tipo, 20).toLowerCase(),
     perfil: txt(d.perfil, LIMITES.perfil),
+    faturamento: txt(d.faturamento, 20),
     aceite_termos: d.aceite_termos === true,
     origem: txt(d.origem, LIMITES.origem),
     utm_source: txt(d.utm_source, LIMITES.utm),
@@ -98,7 +108,10 @@ function normalizar(d) {
     utm_content: txt(d.utm_content, LIMITES.utm),
     utm_term: txt(d.utm_term, LIMITES.utm),
     ref: txt(d.ref, LIMITES.utm),
+    tier: '',
   };
+  lead.tier = FAIXAS[lead.faturamento] ? FAIXAS[lead.faturamento].tier : '';
+  return lead;
 }
 
 function validar(l) {
@@ -106,6 +119,7 @@ function validar(l) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(l.email)) return 'E-mail inválido';
   if (!/^\d{10,11}$/.test(l.whatsapp)) return 'WhatsApp inválido';
   if (TIPOS.indexOf(l.tipo) < 0) return 'Tipo de parceiro inválido';
+  if (!FAIXAS[l.faturamento]) return 'Faixa de faturamento inválida';
   if (l.perfil.length < 2) return 'Perfil inválido';
   if (!l.aceite_termos) return 'Termos não aceitos';
   return '';
@@ -124,8 +138,19 @@ function aba() {
     sh.appendRow(COLUNAS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, COLUNAS.length).setFontWeight('bold');
+  } else {
+    migrarCabecalho(sh);
   }
   return sh;
+}
+
+// Planilhas criadas antes do faturamento: insere as colunas faturamento e tier depois de perfil
+function migrarCabecalho(sh) {
+  const cab = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const perfil = cab.indexOf('perfil');
+  if (perfil < 0 || cab.indexOf('faturamento') >= 0) return;
+  sh.insertColumnsAfter(perfil + 1, 2);
+  sh.getRange(1, perfil + 2, 1, 2).setValues([['faturamento', 'tier']]).setFontWeight('bold');
 }
 
 // Impede que um texto vire fórmula na planilha (ex.: "=HYPERLINK(...)" ou "@perfil")
@@ -165,7 +190,9 @@ function modoTeste() {
 
 /** Corpo enviado ao CRM 3COS (POST /api/leads). */
 function montarPayloadCrm(lead, teste) {
+  const faixa = FAIXAS[lead.faturamento];
   const notas = ['Perfil/canal: ' + lead.perfil];
+  if (faixa) notas.push('Faturamento: ' + faixa.rotulo + ' | Tier ' + faixa.tier);
   if (lead.ref) notas.push('ref: ' + lead.ref);
   notas.push('ID na planilha: ' + lead.id);
 
@@ -183,6 +210,7 @@ function montarPayloadCrm(lead, teste) {
     utm: utm,
     consentimento_lgpd: lead.aceite_termos === true,
     notes: notas.join(' | '),
+    tags: faixa ? ['Tier ' + faixa.tier, faixa.evento] : [],
     test: teste,
   };
 }

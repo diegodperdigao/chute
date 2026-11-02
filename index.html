@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800;1,900&family=DM+Sans:opsz,wght@9..40,400..700&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
 </head>
 <body>
 
@@ -72,53 +72,84 @@
         <form class="form" id="lead-form" novalidate>
           <div class="form__head">
             <h2 class="form__title">Quero ser parceiro</h2>
-            <p class="form__sub">Leva menos de um minuto.</p>
+            <ol class="progress" aria-label="Etapas">
+              <li class="is-on" data-dot="1"><span>1</span>Seus dados</li>
+              <li data-dot="2"><span>2</span>Seu perfil</li>
+            </ol>
           </div>
-          <div class="field">
-            <label for="f-nome">Nome</label>
-            <input id="f-nome" name="nome" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" placeholder="Seu nome" required>
-            <p class="field__err" id="e-nome"></p>
-          </div>
-          <div class="field">
-            <label for="f-email">E-mail</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="voce@email.com" required>
-            <p class="field__err" id="e-email"></p>
-          </div>
-          <div class="field">
-            <label for="f-whats">WhatsApp</label>
-            <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" enterkeyhint="next" placeholder="(11) 91234-5678" required>
-            <p class="field__err" id="e-whats"></p>
-          </div>
-          <fieldset class="field">
-            <legend>Você é</legend>
-            <div class="tipos">
-              <label><input type="radio" name="tipo" value="influencer" id="t-influencer"><span>Influencer</span></label>
-              <label><input type="radio" name="tipo" value="tipster" id="t-tipster"><span>Tipster</span></label>
-              <label><input type="radio" name="tipo" value="streamer" id="t-streamer"><span>Streamer</span></label>
-              <label><input type="radio" name="tipo" value="agencia" id="t-agencia"><span>Agência</span></label>
+
+          <!-- etapa 1: contato -->
+          <div class="step" data-step="1">
+            <div class="field">
+              <label for="f-nome">Nome</label>
+              <input id="f-nome" name="nome" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" placeholder="Seu nome" required>
+              <p class="field__err" id="e-nome"></p>
             </div>
-            <p class="field__err" id="e-tipo"></p>
-          </fieldset>
-          <div class="field">
-            <label for="f-perfil">Seu perfil principal</label>
-            <input id="f-perfil" name="perfil" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="@seuperfil ou link" required>
-            <p class="field__err" id="e-perfil"></p>
+            <div class="field">
+              <label for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="next" placeholder="voce@email.com" required>
+              <p class="field__err" id="e-email"></p>
+            </div>
+            <div class="field">
+              <label for="f-whats">WhatsApp</label>
+              <input id="f-whats" name="whatsapp" type="tel" autocomplete="tel-national" inputmode="numeric" enterkeyhint="next" placeholder="(11) 91234-5678" required>
+              <p class="field__err" id="e-whats"></p>
+            </div>
+            <button class="btn btn--block magnetic" type="button" id="f-next">
+              <span>Continuar</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
           </div>
-          <div class="hp" aria-hidden="true">
-            <label for="f-empresa">Empresa</label>
-            <input id="f-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+
+          <!-- etapa 2: perfil e faturamento (define o tier do afiliado) -->
+          <div class="step" data-step="2" hidden>
+            <fieldset class="field">
+              <legend>Você é</legend>
+              <div class="tipos">
+                <label><input type="radio" name="tipo" value="influencer"><span>Influencer</span></label>
+                <label><input type="radio" name="tipo" value="agencia"><span>Agência</span></label>
+                <label><input type="radio" name="tipo" value="publisher"><span>Publisher</span></label>
+                <label><input type="radio" name="tipo" value="outro"><span>Outro</span></label>
+              </div>
+              <p class="field__err" id="e-tipo"></p>
+            </fieldset>
+            <div class="field">
+              <label for="f-perfil">Seu perfil principal</label>
+              <input id="f-perfil" name="perfil" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="@seuperfil ou link" required>
+              <p class="field__err" id="e-perfil"></p>
+            </div>
+            <fieldset class="field">
+              <legend>Faturamento mensal</legend>
+              <div class="tipos tipos--fat">
+                <label><input type="radio" name="faturamento" value="10k_50k"><span>R$ 10 – 50 mil</span></label>
+                <label><input type="radio" name="faturamento" value="50k_100k"><span>R$ 50 – 100 mil</span></label>
+                <label><input type="radio" name="faturamento" value="100k_300k"><span>R$ 100 – 300 mil</span></label>
+                <label><input type="radio" name="faturamento" value="300k_1M"><span>R$ 300 mil – 1 mi</span></label>
+                <label><input type="radio" name="faturamento" value="1M_mais"><span>+ R$ 1 milhão</span></label>
+              </div>
+              <p class="field__err" id="e-faturamento"></p>
+            </fieldset>
+            <div class="hp" aria-hidden="true">
+              <label for="f-empresa">Empresa</label>
+              <input id="f-empresa" name="empresa" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="check" for="f-aceite">
+                <input id="f-aceite" name="aceite" type="checkbox" required>
+                <span>Tenho 18 anos ou mais e aceito os <a href="#termos" class="terms-link" aria-haspopup="dialog">termos e condições</a>.</span>
+              </label>
+              <p class="field__err" id="e-aceite"></p>
+            </div>
+            <div class="step__actions">
+              <button class="step__back" type="button" id="f-back" aria-label="Voltar para seus dados">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+              </button>
+              <button class="btn btn--block magnetic" type="submit" id="f-submit">
+                <span class="btn__label">Enviar inscrição</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
           </div>
-          <div class="field">
-            <label class="check" for="f-aceite">
-              <input id="f-aceite" name="aceite" type="checkbox" required>
-              <span>Tenho 18 anos ou mais e aceito os <a href="#termos" class="terms-link" aria-haspopup="dialog">termos e condições</a>.</span>
-            </label>
-            <p class="field__err" id="e-aceite"></p>
-          </div>
-          <button class="btn btn--block magnetic" type="submit" id="f-submit">
-            <span class="btn__label">Enviar inscrição</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
           <p class="form__status" id="f-status" role="status" aria-live="polite"></p>
         </form>
 
@@ -176,6 +207,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=2" defer></script>
 </body>
 </html>

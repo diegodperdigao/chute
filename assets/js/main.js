@@ -6,8 +6,32 @@
   // Ao atualizar o script, use "Gerenciar implantações → Nova versão" para manter esta URL.
   const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzViCpmeA9a69q8GTKRrIOjSbnHH6FoY1tUW2ENQ4GgRqputI61p_JrVgnMKyYOxVJX/exec';
 
+  // Pixel da Meta exclusivo do Chute. Vazio = pixel desligado.
+  // PageView na visita; Lead + o evento da faixa de faturamento só quando a inscrição é salva.
+  const META_PIXEL_ID = '';
+
+  // Faixas de faturamento da etapa 2: cada uma vira um evento próprio no pixel e define o tier.
+  const FAIXAS = {
+    '10k_50k':   { evento: 'LeadAfiliado_10k_50k',   tier: 5 },
+    '50k_100k':  { evento: 'LeadAfiliado_50k_100k',  tier: 4 },
+    '100k_300k': { evento: 'LeadAfiliado_100k_300k', tier: 3 },
+    '300k_1M':   { evento: 'LeadAfiliado_300k_1M',   tier: 2 },
+    '1M_mais':   { evento: 'LeadAfiliado_1M_mais',   tier: 1 },
+  };
+
   const $ = s => document.querySelector(s);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- pixel ---------- */
+  if (META_PIXEL_ID) {
+    /* eslint-disable */
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    /* eslint-enable */
+    fbq('init', META_PIXEL_ID);
+    fbq('track', 'PageView');
+  }
 
   /* ---------- marquees ---------- */
   const fill = (track, list, min) => {
@@ -92,18 +116,21 @@
   });
 
   const RULES = [
-    { name: 'nome', err: 'e-nome', check: f => f.nome.value.trim().length >= 2 || 'Conta pra gente seu nome.' },
-    { name: 'email', err: 'e-email', check: f => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()) || 'Confira o e-mail.' },
-    { name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
-    { name: 'tipo', err: 'e-tipo', check: f => !!f.tipo.value || 'Escolha o que melhor descreve você.' },
-    { name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
-    { name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais e aceita os termos.' },
+    { step: 1, name: 'nome', err: 'e-nome', check: f => f.nome.value.trim().length >= 2 || 'Conta pra gente seu nome.' },
+    { step: 1, name: 'email', err: 'e-email', check: f => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim()) || 'Confira o e-mail.' },
+    { step: 1, name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
+    { step: 2, name: 'tipo', err: 'e-tipo', check: f => !!f.tipo.value || 'Escolha o que melhor descreve você.' },
+    { step: 2, name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
+    { step: 2, name: 'faturamento', err: 'e-faturamento', check: f => !!FAIXAS[f.faturamento.value] || 'Escolha a faixa de faturamento.' },
+    { step: 2, name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais e aceita os termos.' },
   ];
 
-  function validate(only) {
+  // only: nome de um campo; step: número da etapa; sem nada: formulário inteiro
+  function validate(only, step) {
     let firstBad = null;
     for (const r of RULES) {
       if (only && only !== r.name) continue;
+      if (step && step !== r.step) continue;
       const res = r.check(form.elements);
       const ok = res === true;
       const errEl = document.getElementById(r.err);
@@ -116,6 +143,34 @@
     }
     return firstBad;
   }
+
+  /* ---------- etapas ---------- */
+  const steps = form.querySelectorAll('.step');
+  const dots = form.querySelectorAll('.progress li');
+  function goTo(n) {
+    steps.forEach(st => {
+      const on = +st.dataset.step === n;
+      st.hidden = !on;
+      st.classList.toggle('is-back', on && n === 1);
+    });
+    dots.forEach(d => {
+      const k = +d.dataset.dot;
+      d.classList.toggle('is-on', k === n);
+      d.classList.toggle('is-done', k < n);
+    });
+    const first = form.querySelector(`.step[data-step="${n}"] input:not([type="hidden"])`);
+    if (first) first.focus({ preventScroll: true });
+  }
+  $('#f-next').addEventListener('click', () => {
+    const bad = validate(null, 1);
+    if (bad) { bad.focus(); return; }
+    goTo(2);
+  });
+  $('#f-back').addEventListener('click', () => goTo(1));
+  // Enter nos campos da etapa 1 avança em vez de enviar
+  form.querySelector('.step[data-step="1"]').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); $('#f-next').click(); }
+  });
 
   // re-validate a field as soon as it is fixed
   form.addEventListener('input', e => {
@@ -153,16 +208,21 @@
   form.addEventListener('submit', async e => {
     e.preventDefault();
     status.textContent = '';
-    const bad = validate();
+    const bad1 = validate(null, 1);
+    if (bad1) { goTo(1); bad1.focus(); return; }
+    const bad = validate(null, 2);
     if (bad) { bad.focus(); return; }
 
     const f = form.elements;
+    const faixa = FAIXAS[f.faturamento.value];
     const payload = {
       nome: f.nome.value.trim(),
       email: f.email.value.trim(),
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
       tipo: f.tipo.value,
       perfil: f.perfil.value.trim(),
+      faturamento: f.faturamento.value,
+      tier: faixa.tier,
       aceite_termos: true,
       empresa: f.empresa.value, // honeypot: real people leave it empty
       origem: location.href.split('#')[0],
@@ -188,6 +248,10 @@
       } else {
         console.warn('[Chute] FORM_ENDPOINT vazio: inscrição não foi salva.', payload);
         await new Promise(r => setTimeout(r, 600));
+      }
+      if (META_PIXEL_ID && window.fbq) {
+        fbq('track', 'Lead');
+        fbq('trackCustom', faixa.evento, { tier: faixa.tier });
       }
       $('#done-name').textContent = payload.nome.split(' ')[0];
       form.hidden = true;
