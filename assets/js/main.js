@@ -7,8 +7,9 @@
   const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzViCpmeA9a69q8GTKRrIOjSbnHH6FoY1tUW2ENQ4GgRqputI61p_JrVgnMKyYOxVJX/exec';
 
   // Pixel da Meta exclusivo do Chute. Vazio = pixel desligado.
-  // PageView na visita; Lead + o evento da faixa de faturamento só quando a inscrição é salva.
-  const META_PIXEL_ID = '';
+  // PageView na visita (único evento padrão); LeadAfiliado + o evento da faixa de faturamento,
+  // ambos personalizados, só quando a inscrição é salva.
+  const META_PIXEL_ID = '1113780724748958';
 
   // Faixas de faturamento da etapa 2: cada uma vira um evento próprio no pixel e define o tier.
   const FAIXAS = {
@@ -250,7 +251,7 @@
         await new Promise(r => setTimeout(r, 600));
       }
       if (META_PIXEL_ID && window.fbq) {
-        fbq('track', 'Lead');
+        fbq('trackCustom', 'LeadAfiliado', { tier: faixa.tier });
         fbq('trackCustom', faixa.evento, { tier: faixa.tier });
       }
       $('#done-name').textContent = payload.nome.split(' ')[0];
