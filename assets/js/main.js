@@ -207,8 +207,46 @@
     return out;
   }
 
+  // id da tentativa: o mesmo em todas as repetições, para o Apps Script não gravar duas vezes
+  const novoId = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : Date.now().toString(36) + Math.random().toString(36).slice(2);
+  let envioId = novoId();
+
+  // envia com tempo limite; em falha de rede ou servidor ocupado tenta de novo (até 3 vezes)
+  async function enviar(payload) {
+    const esperas = [0, 1500, 4000];
+    let ultimo;
+    for (const espera of esperas) {
+      if (espera) await new Promise(r => setTimeout(r, espera));
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 25000);
+      try {
+        // text/plain keeps this a "simple" request, so Apps Script needs no CORS preflight
+        const res = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+          redirect: 'follow',
+          signal: ctrl.signal,
+        });
+        const out = res.ok ? await res.json().catch(() => ({})) : {};
+        if (out.ok) return out;
+        // dado recusado pelo script: repetir não adianta
+        if (out.erro) throw Object.assign(new Error(out.erro), { final: true });
+        ultimo = new Error('HTTP ' + res.status);
+      } catch (err) {
+        if (err.final) throw err;
+        ultimo = err;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    throw ultimo;
+  }
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (submit.getAttribute('aria-busy') === 'true') return;
     status.textContent = '';
     const bad1 = validate(null, 1);
     if (bad1) { goTo(1); bad1.focus(); return; }
@@ -229,6 +267,7 @@
       empresa: f.empresa.value, // honeypot: real people leave it empty
       origem: location.href.split('#')[0],
       enviado_em: new Date().toISOString(),
+      envio_id: envioId,
       ...utm(),
     };
 
@@ -237,16 +276,7 @@
     label.textContent = 'Enviando…';
     try {
       if (FORM_ENDPOINT) {
-        // text/plain keeps this a "simple" request, so Apps Script needs no CORS preflight
-        const res = await fetch(FORM_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload),
-          redirect: 'follow',
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const out = await res.json().catch(() => ({}));
-        if (!out.ok) throw new Error(out.erro || 'Resposta inválida');
+        await enviar(payload);
       } else {
         console.warn('[Chute] FORM_ENDPOINT vazio: inscrição não foi salva.', payload);
         await new Promise(r => setTimeout(r, 600));

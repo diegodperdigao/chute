@@ -75,7 +75,8 @@ function doPost(e) {
   const erro = validar(lead);
   if (erro) return responder({ ok: false, erro: erro });
 
-  const linha = gravar(lead);
+  const linha = gravar(lead, txt(dados.envio_id, 64));
+  if (linha < 0) return responder({ ok: true, repetido: true }); // repetição de um envio já gravado
   const crm = enviarAoCrm(lead);
   atualizarStatus(linha, crm);
 
@@ -163,13 +164,14 @@ function migrarCabecalho(sh) {
   colorirTier(sh);
 }
 
-// cor de fundo da coluna tier: 1 (mais seguidores) em verde forte até 5 em cinza; 6 (até 10 mil) fica sem cor
+// cor de fundo da coluna tier: 1 (mais seguidores) em verde forte até 6 (até 10 mil) em cinza bem claro
 const CORES_TIER = {
   1: ['#0B8043', '#FFFFFF'],
   2: ['#57BB8A', '#FFFFFF'],
   3: ['#FFE066', '#3A2F00'],
   4: ['#FFCC99', '#5A2E00'],
   5: ['#E8E8E8', '#444444'],
+  6: ['#F5F5F5', '#888888'],
 };
 
 /** Pinta a coluna tier por nível (formatação condicional). Pode rodar de novo sem duplicar as regras. */
@@ -192,22 +194,37 @@ function seguro(v) {
   return typeof v === 'string' && /^[=+\-@]/.test(v) ? "'" + v : v;
 }
 
-function gravar(lead) {
-  const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
-  try {
-    const sh = aba();
-    const valores = COLUNAS.map(c => {
-      if (c === 'crm_status') return 'pendente';
-      if (c === 'crm_id' || c === 'crm_resposta' || c === 'crm_teste') return '';
-      if (c === 'whatsapp') return "'" + lead.whatsapp; // mantém zeros e evita notação numérica
-      return seguro(lead[c]);
-    });
-    sh.appendRow(valores);
-    return sh.getLastRow();
-  } finally {
-    lock.releaseLock();
-  }
+function txt(v, max) {
+  return String(v == null ? '' : v).trim().slice(0, max);
+}
+
+/**
+ * Grava o lead e devolve a linha. A página repete o envio quando a rede falha; com o mesmo
+ * envio_id, a repetição não grava de novo e devolve -1.
+ * Sem trava: appendRow já é atômico, e a linha é achada pelo id. Assim um envio lento não
+ * segura os outros.
+ */
+function gravar(lead, envioId) {
+  const cache = CacheService.getScriptCache();
+  if (envioId && cache.get('envio:' + envioId)) return -1;
+  const sh = aba();
+  const valores = COLUNAS.map(c => {
+    if (c === 'crm_status') return 'pendente';
+    if (c === 'crm_id' || c === 'crm_resposta' || c === 'crm_teste') return '';
+    if (c === 'whatsapp') return "'" + lead.whatsapp; // mantém zeros e evita notação numérica
+    return seguro(lead[c]);
+  });
+  sh.appendRow(valores);
+  if (envioId) cache.put('envio:' + envioId, '1', 21600);
+  return linhaDoLead(sh, lead.id);
+}
+
+// Linha do lead pelo id (coluna id)
+function linhaDoLead(sh, id) {
+  const col = COLUNAS.indexOf('id') + 1;
+  const total = sh.getLastRow() - 1;
+  const achado = sh.getRange(2, col, total, 1).createTextFinder(id).matchEntireCell(true).findNext();
+  return achado ? achado.getRow() : sh.getLastRow();
 }
 
 function atualizarStatus(linha, crm) {
@@ -293,6 +310,9 @@ function reenviarPendentes() {
   linhas.forEach((v, i) => {
     const status = v[idx('crm_status')];
     if (status === 'enviado' || status === 'rejeitado') return;
+    // linha recém-gravada: o doPost ainda pode estar enviando ao CRM; fica para a próxima rodada
+    const recebido = v[idx('recebido_em')];
+    if (recebido instanceof Date && Date.now() - recebido.getTime() < 2 * 60 * 1000) return;
     const lead = {};
     COLUNAS.forEach((c, j) => { lead[c] = typeof v[j] === 'string' ? v[j].replace(/^'/, '') : v[j]; });
     lead.whatsapp = String(lead.whatsapp).replace(/\D/g, '');
