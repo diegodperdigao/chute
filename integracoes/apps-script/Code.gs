@@ -13,7 +13,7 @@
 const ABA = 'Inscrições';
 
 const COLUNAS = [
-  'recebido_em', 'id', 'nome', 'email', 'whatsapp', 'tipo', 'perfil', 'faturamento', 'tier', 'aceite_termos',
+  'recebido_em', 'id', 'nome', 'email', 'whatsapp', 'tipo', 'perfil', 'seguidores', 'tier', 'aceite_termos',
   'origem', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ref',
   'crm_status', 'crm_id', 'crm_resposta', 'crm_teste',
 ];
@@ -21,13 +21,14 @@ const COLUNAS = [
 // valores aceitos pelo campo "perfil" do CRM
 const TIPOS = ['influencer', 'agencia', 'publisher', 'outro'];
 
-// faixas de faturamento da etapa 2 → tier do afiliado (o tier é calculado aqui, não confiamos no navegador)
+// faixas de seguidores da etapa 2 → tier do afiliado (o tier é calculado aqui, não confiamos no navegador)
 const FAIXAS = {
-  '10k_50k':   { rotulo: 'R$ 10 – 50 mil',          tier: 5, evento: 'LeadAfiliado_10k_50k' },
-  '50k_100k':  { rotulo: 'R$ 50 – 100 mil',         tier: 4, evento: 'LeadAfiliado_50k_100k' },
-  '100k_300k': { rotulo: 'R$ 100 – 300 mil',        tier: 3, evento: 'LeadAfiliado_100k_300k' },
-  '300k_1M':   { rotulo: 'R$ 300 mil – 1 milhão',   tier: 2, evento: 'LeadAfiliado_300k_1M' },
-  '1M_mais':   { rotulo: '+ R$ 1 milhão',           tier: 1, evento: 'LeadAfiliado_1M_mais' },
+  'ate_10k':   { rotulo: 'Até 10 mil',          tier: 6, evento: '' },
+  '10k_50k':   { rotulo: '10 – 50 mil',         tier: 5, evento: 'LeadAfiliado_10k_50k' },
+  '50k_100k':  { rotulo: '50 – 100 mil',        tier: 4, evento: 'LeadAfiliado_50k_100k' },
+  '100k_300k': { rotulo: '100 – 300 mil',       tier: 3, evento: 'LeadAfiliado_100k_300k' },
+  '300k_1M':   { rotulo: '300 mil – 1 milhão',  tier: 2, evento: 'LeadAfiliado_300k_1M' },
+  '1M_mais':   { rotulo: '+1 milhão',           tier: 1, evento: 'LeadAfiliado_1M_mais' },
 };
 
 const LIMITES = { nome: 120, email: 160, whatsapp: 11, perfil: 200, origem: 500, utm: 200 };
@@ -46,7 +47,7 @@ function testar() {
 
   const lead = normalizar({
     nome: 'Teste Chute', email: 'teste@exemplo.com', whatsapp: '11912345678',
-    tipo: 'influencer', perfil: '@teste', faturamento: '10k_50k', aceite_termos: true, origem: 'teste manual (Apps Script)',
+    tipo: 'influencer', perfil: '@teste', seguidores: '10k_50k', aceite_termos: true, origem: 'teste manual (Apps Script)',
   });
   const linha = gravar(lead);
   Logger.log('3/4 Linha ' + linha + ' gravada na aba "' + ABA + '" da planilha "' + SpreadsheetApp.getActiveSpreadsheet().getName() + '".');
@@ -99,7 +100,8 @@ function normalizar(d) {
     whatsapp: txt(d.whatsapp, 20).replace(/\D/g, '').slice(0, LIMITES.whatsapp),
     tipo: txt(d.tipo, 20).toLowerCase(),
     perfil: txt(d.perfil, LIMITES.perfil),
-    faturamento: txt(d.faturamento, 20),
+    // "faturamento" é o nome antigo do campo; aceito enquanto a página antiga ainda estiver em cache
+    seguidores: txt(d.seguidores || d.faturamento, 20),
     aceite_termos: d.aceite_termos === true,
     origem: txt(d.origem, LIMITES.origem),
     utm_source: txt(d.utm_source, LIMITES.utm),
@@ -110,7 +112,7 @@ function normalizar(d) {
     ref: txt(d.ref, LIMITES.utm),
     tier: '',
   };
-  lead.tier = FAIXAS[lead.faturamento] ? FAIXAS[lead.faturamento].tier : '';
+  lead.tier = FAIXAS[lead.seguidores] ? FAIXAS[lead.seguidores].tier : '';
   return lead;
 }
 
@@ -119,7 +121,7 @@ function validar(l) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(l.email)) return 'E-mail inválido';
   if (!/^\d{10,11}$/.test(l.whatsapp)) return 'WhatsApp inválido';
   if (TIPOS.indexOf(l.tipo) < 0) return 'Tipo de parceiro inválido';
-  if (!FAIXAS[l.faturamento]) return 'Faixa de faturamento inválida';
+  if (!FAIXAS[l.seguidores]) return 'Faixa de seguidores inválida';
   if (l.perfil.length < 2) return 'Perfil inválido';
   if (!l.aceite_termos) return 'Termos não aceitos';
   return '';
@@ -145,17 +147,23 @@ function aba() {
   return sh;
 }
 
-// Planilhas criadas antes do faturamento: insere as colunas faturamento e tier depois de perfil
+// Planilhas antigas: renomeia "faturamento" para "seguidores" ou, se não tiver nenhuma das duas,
+// insere as colunas seguidores e tier depois de perfil
 function migrarCabecalho(sh) {
   const cab = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  const fat = cab.indexOf('faturamento');
+  if (fat >= 0) {
+    sh.getRange(1, fat + 1).setValue('seguidores');
+    return;
+  }
   const perfil = cab.indexOf('perfil');
-  if (perfil < 0 || cab.indexOf('faturamento') >= 0) return;
+  if (perfil < 0 || cab.indexOf('seguidores') >= 0) return;
   sh.insertColumnsAfter(perfil + 1, 2);
-  sh.getRange(1, perfil + 2, 1, 2).setValues([['faturamento', 'tier']]).setFontWeight('bold');
+  sh.getRange(1, perfil + 2, 1, 2).setValues([['seguidores', 'tier']]).setFontWeight('bold');
   colorirTier(sh);
 }
 
-// cor de fundo da coluna tier: 1 (maior faturamento) em verde forte até 5 em cinza; o número continua visível
+// cor de fundo da coluna tier: 1 (mais seguidores) em verde forte até 5 em cinza; 6 (até 10 mil) fica sem cor
 const CORES_TIER = {
   1: ['#0B8043', '#FFFFFF'],
   2: ['#57BB8A', '#FFFFFF'],
@@ -216,9 +224,9 @@ function modoTeste() {
 
 /** Corpo enviado ao CRM 3COS (POST /api/leads). */
 function montarPayloadCrm(lead, teste) {
-  const faixa = FAIXAS[lead.faturamento];
+  const faixa = FAIXAS[lead.seguidores];
   const notas = ['Perfil/canal: ' + lead.perfil];
-  if (faixa) notas.push('Faturamento: ' + faixa.rotulo + ' | Tier ' + faixa.tier);
+  if (faixa) notas.push('Seguidores: ' + faixa.rotulo + ' | Tier ' + faixa.tier);
   if (lead.ref) notas.push('ref: ' + lead.ref);
   notas.push('ID na planilha: ' + lead.id);
 
@@ -236,7 +244,7 @@ function montarPayloadCrm(lead, teste) {
     utm: utm,
     consentimento_lgpd: lead.aceite_termos === true,
     notes: notas.join(' | '),
-    tags: faixa ? ['Tier ' + faixa.tier, faixa.evento] : [],
+    tags: faixa ? ['Tier ' + faixa.tier].concat(faixa.evento ? [faixa.evento] : []) : [],
     test: teste,
   };
 }

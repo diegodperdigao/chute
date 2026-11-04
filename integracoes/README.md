@@ -37,7 +37,7 @@ Corpo enviado ao CRM (`POST`, `application/json`):
   "url_origem": "https://...",
   "utm": { "source": "", "medium": "", "campaign": "", "term": "", "content": "" },
   "consentimento_lgpd": true,
-  "notes": "Perfil/canal: @perfil | Faturamento: R$ 10 – 50 mil | Tier 5 | ref: ... | ID na planilha: ...",
+  "notes": "Perfil/canal: @perfil | Seguidores: 10 – 50 mil | Tier 5 | ref: ... | ID na planilha: ...",
   "tags": ["Tier 5", "LeadAfiliado_10k_50k"],
   "test": true
 }
@@ -64,31 +64,32 @@ No editor, selecione a função `testar` e clique em **Executar**. Na primeira v
 ### 5. Reenvio automático (recomendado)
 Execute uma vez a função `instalarGatilho`. Ela agenda `reenviarPendentes()` a cada 15 minutos para os leads que falharam no CRM.
 
-## Faturamento e tier
+## Seguidores e tier
 
-O formulário tem 2 etapas: **Seus dados** (nome, e-mail, WhatsApp) e **Seu perfil** (você é, perfil principal, faturamento mensal, termos). Ele é enviado uma vez só, no fim.
+O formulário tem 2 etapas: **Seus dados** (nome, e-mail, WhatsApp) e **Seu perfil** (você é, perfil principal, quantos seguidores tem no perfil principal, termos). Ele é enviado uma vez só, no fim.
 
-A etapa 2 pergunta o faturamento mensal. O script grava a faixa (`faturamento`) e calcula o `tier` a partir dela (o tier que vem do navegador é ignorado). Faixa inválida é recusada.
+A etapa 2 pergunta quantos seguidores a pessoa tem. O script grava a faixa (`seguidores`) e calcula o `tier` a partir dela (o tier que vem do navegador é ignorado). Faixa inválida é recusada.
 
-| Faixa (`faturamento`) | Tier | Evento no pixel |
+| Faixa (`seguidores`) | Tier | Evento no pixel |
 |---|---|---|
-| `10k_50k` · R$ 10 – 50 mil | 5 | `LeadAfiliado_10k_50k` |
-| `50k_100k` · R$ 50 – 100 mil | 4 | `LeadAfiliado_50k_100k` |
-| `100k_300k` · R$ 100 – 300 mil | 3 | `LeadAfiliado_100k_300k` |
-| `300k_1M` · R$ 300 mil – 1 milhão | 2 | `LeadAfiliado_300k_1M` |
-| `1M_mais` · + R$ 1 milhão | 1 | `LeadAfiliado_1M_mais` |
+| `ate_10k` · Até 10 mil | 6 | só `LeadAfiliado` |
+| `10k_50k` · 10 – 50 mil | 5 | `LeadAfiliado_10k_50k` |
+| `50k_100k` · 50 – 100 mil | 4 | `LeadAfiliado_50k_100k` |
+| `100k_300k` · 100 – 300 mil | 3 | `LeadAfiliado_100k_300k` |
+| `300k_1M` · 300 mil – 1 milhão | 2 | `LeadAfiliado_300k_1M` |
+| `1M_mais` · +1 milhão | 1 | `LeadAfiliado_1M_mais` |
 
-No CRM, a faixa e o tier vão nas notas do contato e como tags (`Tier N` e o nome do evento).
+No CRM, a faixa e o tier vão nas notas do contato ("Seguidores: 10 – 50 mil | Tier 5") e como tags (`Tier N` e, a partir de 10 mil, o nome do evento).
 
-Na planilha, a coluna `tier` é colorida por nível (1 verde forte → 5 cinza), sem esconder o número. A função `colorirTier` aplica essas cores; ela roda sozinha quando a aba é criada e pode ser rodada de novo pelo editor sem duplicar as regras.
+O pixel da Meta (`META_PIXEL_ID` = `1113780724748958`, em `assets/js/main.js`) dispara `PageView` na visita (único evento padrão) e, só depois que a inscrição é salva, o evento personalizado `LeadAfiliado` (todos) + o evento da faixa (a partir de 10 mil), com `{ tier }`.
 
-O pixel da Meta (`META_PIXEL_ID` = `1113780724748958`, em `assets/js/main.js`) dispara `PageView` na visita (único evento padrão) e, só depois que a inscrição é salva, os eventos personalizados `LeadAfiliado` + o evento da faixa, ambos com `{ tier }`.
+Na planilha, a coluna `tier` é colorida por nível (1 verde forte → 5 cinza; 6 sem cor), sem esconder o número. A função `colorirTier` aplica essas cores; ela roda sozinha quando a aba é criada e pode ser rodada de novo pelo editor sem duplicar as regras.
 
-Planilhas criadas antes desta mudança ganham as colunas `faturamento` e `tier` sozinhas (depois de `perfil`) na primeira inscrição recebida.
+O script ainda aceita o nome antigo do campo (`faturamento`) e, em planilhas antigas, renomeia a coluna `faturamento` para `seguidores` na primeira inscrição.
 
 ## Colunas da planilha
 
-`recebido_em, id, nome, email, whatsapp, tipo, perfil, faturamento, tier, aceite_termos, origem, utm_source, utm_medium, utm_campaign, utm_content, utm_term, ref, crm_status, crm_id, crm_resposta, crm_teste`
+`recebido_em, id, nome, email, whatsapp, tipo, perfil, seguidores, tier, aceite_termos, origem, utm_source, utm_medium, utm_campaign, utm_content, utm_term, ref, crm_status, crm_id, crm_resposta, crm_teste`
 
 ## Segurança
 

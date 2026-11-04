@@ -7,12 +7,13 @@
   const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzViCpmeA9a69q8GTKRrIOjSbnHH6FoY1tUW2ENQ4GgRqputI61p_JrVgnMKyYOxVJX/exec';
 
   // Pixel da Meta exclusivo do Chute. Vazio = pixel desligado.
-  // PageView na visita (único evento padrão); LeadAfiliado + o evento da faixa de faturamento,
-  // ambos personalizados, só quando a inscrição é salva.
+  // PageView na visita (único evento padrão); LeadAfiliado + o evento da faixa de seguidores,
+  // ambos personalizados, só quando a inscrição é salva. "Até 10 mil" dispara só o LeadAfiliado.
   const META_PIXEL_ID = '1113780724748958';
 
-  // Faixas de faturamento da etapa 2: cada uma vira um evento próprio no pixel e define o tier.
+  // Faixas de seguidores da etapa 2: definem o tier e, a partir de 10 mil, um evento próprio no pixel.
   const FAIXAS = {
+    'ate_10k':   { evento: '',                       tier: 6 },
     '10k_50k':   { evento: 'LeadAfiliado_10k_50k',   tier: 5 },
     '50k_100k':  { evento: 'LeadAfiliado_50k_100k',  tier: 4 },
     '100k_300k': { evento: 'LeadAfiliado_100k_300k', tier: 3 },
@@ -122,7 +123,7 @@
     { step: 1, name: 'whatsapp', err: 'e-whats', check: f => /^\d{10,11}$/.test(f.whatsapp.value.replace(/\D/g, '')) || 'Informe o WhatsApp com DDD.' },
     { step: 2, name: 'tipo', err: 'e-tipo', check: f => !!f.tipo.value || 'Escolha o que melhor descreve você.' },
     { step: 2, name: 'perfil', err: 'e-perfil', check: f => f.perfil.value.trim().length >= 2 || 'Informe seu @ ou o link do canal.' },
-    { step: 2, name: 'faturamento', err: 'e-faturamento', check: f => !!FAIXAS[f.faturamento.value] || 'Escolha a faixa de faturamento.' },
+    { step: 2, name: 'seguidores', err: 'e-seguidores', check: f => !!FAIXAS[f.seguidores.value] || 'Escolha quantos seguidores você tem.' },
     { step: 2, name: 'aceite', err: 'e-aceite', check: f => f.aceite.checked || 'Confirme que tem 18 anos ou mais e aceita os termos.' },
   ];
 
@@ -215,14 +216,14 @@
     if (bad) { bad.focus(); return; }
 
     const f = form.elements;
-    const faixa = FAIXAS[f.faturamento.value];
+    const faixa = FAIXAS[f.seguidores.value];
     const payload = {
       nome: f.nome.value.trim(),
       email: f.email.value.trim(),
       whatsapp: f.whatsapp.value.replace(/\D/g, ''),
       tipo: f.tipo.value,
       perfil: f.perfil.value.trim(),
-      faturamento: f.faturamento.value,
+      seguidores: f.seguidores.value,
       tier: faixa.tier,
       aceite_termos: true,
       empresa: f.empresa.value, // honeypot: real people leave it empty
@@ -252,7 +253,7 @@
       }
       if (META_PIXEL_ID && window.fbq) {
         fbq('trackCustom', 'LeadAfiliado', { tier: faixa.tier });
-        fbq('trackCustom', faixa.evento, { tier: faixa.tier });
+        if (faixa.evento) fbq('trackCustom', faixa.evento, { tier: faixa.tier });
       }
       $('#done-name').textContent = payload.nome.split(' ')[0];
       form.hidden = true;
